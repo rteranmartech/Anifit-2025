@@ -1,8 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Mis Planes</title>
 
   <style>
@@ -515,48 +520,206 @@
       line-height: 1.6;
     }
 
-    /* Login */
+    /* =========================
+       LOGIN (PREMIUM APP)
+       ========================= */
+
     .login-wrap{
       display: grid;
       place-items: center;
       min-height: calc(100vh - 90px);
-      padding: 14px 0;
+      padding: 18px 0;
+      position: relative;
     }
+
+    /* Fondo premium, sin franja dura arriba (más limpio) */
+    .login-wrap::before{
+      content:"";
+      position:absolute;
+      inset: 0;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 460px at 50% 8%, rgba(39,174,96,.10), transparent 62%),
+        radial-gradient(780px 520px at 50% 62%, rgba(17,24,39,.08), transparent 70%),
+        linear-gradient(180deg, rgba(255,255,255,1), rgba(246,247,251,.55));
+      filter: saturate(1.03);
+    }
+
     .login-card{
-      width: min(560px, 100%);
+      width: min(520px, 100%);
+      position: relative;
+      z-index: 1;
     }
-    .login-title{
-      display:flex;
+
+    .login-host{
+      position: relative;
+      width: 100%;
+      margin: 46px auto 0;
+    }
+
+    /* Logo un poco más chico y más "refinado" */
+    .login-logo{
+      width: 68px;  /* antes 76 */
+      height: 68px; /* antes 76 */
+      border-radius: 20px;
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(11,15,25,.10);
+      box-shadow:
+        0 16px 34px rgba(11,15,25,.14),
+        0 8px 18px rgba(11,15,25,.10);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      position: absolute;
+      top: -38px; /* ajustado */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+    }
+    .login-logo::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(circle at 30% 25%, rgba(39,174,96,.18), transparent 58%);
+      pointer-events:none;
+    }
+    .login-logo img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+    }
+
+    .login-shell{
+      position: relative;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.86));
+      border: 1px solid rgba(11,15,25,.10);
+      box-shadow:
+        0 26px 78px rgba(11,15,25,.14),
+        0 12px 26px rgba(11,15,25,.10);
+      overflow: hidden;
+      padding: 54px 22px 22px; /* ajustado al logo más chico */
+      backdrop-filter: blur(10px);
+      transform: translateZ(0);
+    }
+    .login-shell::after{
+      content:"";
+      position:absolute;
+      inset: 0;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 240px at 50% 0%, rgba(39,174,96,.10), transparent 56%),
+        radial-gradient(740px 260px at 20% 10%, rgba(17,24,39,.08), transparent 58%);
+      mix-blend-mode: multiply;
+      opacity: .78;
+    }
+
+    .login-head{
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 6px;
+    }
+
+    /* Pastilla más liviana (menos "CTA") */
+    .login-kicker{
+      display:inline-flex;
       align-items:center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-    .login-title strong{
-      font-size: 14px;
-      letter-spacing: .10em;
+      justify-content:center;
+      gap: 8px;
+      padding: 7px 11px; /* más compacta */
+      border-radius: 999px;
+      background: rgba(17,24,39,.88); /* un poco menos intensa */
+      border: 1px solid rgba(17,24,39,.12);
+      color: rgba(255,255,255,.92);
+      font-size: 11.5px; /* más chica */
+      font-weight: 850;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      color: rgba(11,15,25,.78);
+      box-shadow: 0 10px 22px rgba(17,24,39,.16);
+    }
+    .login-kicker .pulse{
+      width: 9px; height: 9px;
+      border-radius: 999px;
+      background: rgba(39,174,96,1);
+      box-shadow: 0 0 0 4px rgba(39,174,96,.12);
+    }
+
+    .login-title2{
+      margin: 14px 0 6px;
+      font-size: 20px;
+      font-weight: 950;
+      letter-spacing: -.02em;
+      color: rgba(11,15,25,.96);
     }
     .login-sub{
-      margin: 0 0 10px;
-      color: rgba(11,15,25,.80);
+      margin: 0;
+      color: rgba(11,15,25,.72);
       font-size: 14px;
-      line-height: 1.55;
-      padding-left: 10px;
+      line-height: 1.6;
     }
+
+    .login-form{
+      position: relative;
+      z-index: 2;
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
     .field{
       width: 100%;
-      padding: 12px 12px;
-      border-radius: 14px;
+      padding: 13px 14px;
+      border-radius: 16px;
       border: 1px solid rgba(11,15,25,.12);
-      background: rgba(255,255,255,.95);
+      background: rgba(255,255,255,.96);
       outline: none;
-      transition: box-shadow .12s ease, border-color .12s ease;
+      transition: box-shadow .12s ease, border-color .12s ease, transform .12s ease;
+      box-shadow: 0 10px 22px rgba(11,15,25,.06);
     }
     .field:focus{
       border-color: rgba(39,174,96,.45);
-      box-shadow: 0 0 0 4px rgba(39,174,96,.14);
+      box-shadow: 0 0 0 4px rgba(39,174,96,.14), 0 16px 30px rgba(11,15,25,.10);
+      transform: translateY(-1px);
+    }
+
+    .login-actions{
+      display:flex;
+      justify-content:center;
+      margin-top: 2px;
+    }
+
+    .btn-login{
+      min-width: 220px;
+      border-radius: 18px; /* un poco más "app" */
+      padding: 12px 16px;
+      font-size: 13.5px;
+      font-weight: 950;
+      letter-spacing: .02em;
+      box-shadow: 0 18px 34px rgba(17,24,39,.18);
+    }
+
+    .login-foot{
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      color: rgba(11,15,25,.58);
+      font-size: 12.5px;
+    }
+    .login-foot .dot2{
+      width: 5px; height: 5px; border-radius: 999px;
+      background: rgba(11,15,25,.22);
+      display:inline-block;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .field{ transition: none; }
     }
 
     .spinner{
@@ -601,6 +764,12 @@
       .mini-tabs{ gap: 8px; }
       .bars{ height: 82px; }
       .bar-pair{ height: 62px; }
+
+      .login-shell{ padding: 52px 16px 18px; border-radius: 24px; }
+      .login-logo{ width: 64px; height: 64px; border-radius: 18px; top: -36px; }
+      .btn-login{ min-width: 100%; }
+      .login-host{ margin-top: 42px; }
+      .login-kicker{ font-size: 11.2px; padding: 7px 10px; }
     }
 
     /* Modal (Entrenamiento Próximamente) */
@@ -686,9 +855,11 @@
 
     :focus-visible{ outline: none; }
   </style>
+
 </head>
 
 <body>
+
   <div class="wrap">
 
     <header class="topbar">
@@ -829,6 +1000,7 @@
                           <div class="bar-label">Jun</div>
                         </div>
                       </div>
+
                     </div>
 
                   </div>
@@ -862,12 +1034,14 @@
           <div class="cards" id="plan-nutricional"></div>
         </section>
       </div>
+
     </main>
 
     <footer class="footer">
       <div><strong>ANIFIT</strong> — Mis Planes</div>
       <div>© <span id="year"></span> Todos los derechos reservados.</div>
     </footer>
+
   </div>
 
   <div class="modal" id="modal-prox" aria-hidden="true" role="dialog" aria-modal="true">
@@ -909,33 +1083,43 @@
       const lc = document.getElementById('login-container');
       lc.innerHTML = '';
 
-      const card = document.createElement('div');
-      card.className = 'card';
-
       const msg = message ? message : 'Ingresa tu usuario para ver tu plan.';
 
-      card.innerHTML = `
-        <div class="login-title">
-          <strong>Acceso a mis Planes</strong>
-          <span style="display:inline-flex; align-items:center; gap:8px; opacity:.85;">
-            <span style="width:10px;height:10px;border-radius:999px;background:rgba(39,174,96,1); box-shadow:0 0 0 4px rgba(39,174,96,.14);"></span>
-            <span style="font-size:12.5px; color: rgba(11,15,25,.65); font-weight:700;">ANIFIT</span>
-          </span>
+      const host = document.createElement('div');
+      host.className = 'login-host';
+
+      host.innerHTML = `
+        <div class="login-logo" aria-hidden="true">
+          <img src="https://i.postimg.cc/5NTSj8dK/Diseno-sin-titulo-(1).png" alt="">
         </div>
 
-        <p class="login-sub">${msg}</p>
+        <div class="login-shell">
+          <div class="login-head">
+            <div class="login-kicker">
+              <span class="pulse" aria-hidden="true"></span>
+              <span>Acceso a Mis Planes</span>
+            </div>
 
-        <div style="padding-left:10px; display:grid; gap:10px; margin-top:12px;">
-          <input id="login-user" type="email" placeholder="Usuario (correo)" autocomplete="username" class="field">
-          <div style="display:flex; justify-content:center;">
-            <button id="login-btn" class="btn btn-primary" type="button" style="min-width:200px;">
-              Ingresar
-            </button>
+            <div class="login-title2">Bienvenid@</div>
+            <p class="login-sub">${msg}</p>
+          </div>
+
+          <div class="login-form" style="padding: 0 6px;">
+            <input id="login-user" type="email" placeholder="Usuario" autocomplete="username" class="field">
+            <div class="login-actions">
+              <button id="login-btn" class="btn btn-primary btn-login" type="button">
+                Ingresar
+              </button>
+            </div>
+          </div>
+
+          <div class="login-foot" aria-hidden="true">
+          <span></span><span class=""></span><span></span>
           </div>
         </div>
       `;
 
-      lc.appendChild(card);
+      lc.appendChild(host);
 
       const input = document.getElementById('login-user');
       const btn = document.getElementById('login-btn');
@@ -958,6 +1142,8 @@
       input.addEventListener('keydown', (ev) => {
         if (ev.key === 'Enter') btn.click();
       });
+
+      try { input.focus({ preventScroll: true }); } catch(e) { try { input.focus(); } catch(_){} }
     }
 
     function logout() {
@@ -1159,5 +1345,7 @@
 
     showLogin();
   </script>
+
 </body>
+
 </html>
