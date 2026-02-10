@@ -960,7 +960,7 @@
         <div class="login-wrap">
           <!-- ✅ Fondo video + overlay (solo se activan en login-mode, si no: display:none) -->
           <div class="login-bg-video" aria-hidden="true">
-            <video autoplay muted loop playsinline preload="auto">
+            <video autoplay muted loop playsinline webkit-playsinline preload="auto">
               <source src="https://res.cloudinary.com/duaa18leu/video/upload/0_Woman_Gym_1080x1920_1_ynbcyb.mp4" type="video/mp4">
             </video>
           </div>
@@ -1156,6 +1156,32 @@
     let __ALUMNO_CACHE__ = null;
     let __PROFILE_TAB__ = 'perfil';
 
+/* ✅ iOS: intenta forzar autoplay del video de fondo en login */
+    function forceBgVideoPlay() {
+      const v = document.querySelector('.login-bg-video video');
+      if (!v) return;
+
+      v.muted = true;
+      v.autoplay = true;
+      v.loop = true;
+      v.playsInline = true;
+      v.setAttribute('playsinline', '');
+      v.setAttribute('webkit-playsinline', '');
+
+      const p = v.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(() => {
+          const resume = () => {
+            v.play().catch(() => {});
+            window.removeEventListener('touchstart', resume);
+            window.removeEventListener('click', resume);
+          };
+          window.addEventListener('touchstart', resume, { once: true });
+          window.addEventListener('click', resume, { once: true });
+        });
+      }
+    }
+
     function showLogin(message) {
       /* ✅ SOLO visual: activa estilos exclusivos del login */
       document.body.classList.add('login-mode');
@@ -1207,6 +1233,9 @@
       `;
 
       lc.appendChild(host);
+
+      /* ✅ iOS: reintenta reproducir video ahora que el DOM del login ya existe */
+      forceBgVideoPlay();
 
       const input = document.getElementById('login-user');
       const btn = document.getElementById('login-btn');
