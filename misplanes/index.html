@@ -1039,47 +1039,47 @@
                         </div>
                       </div>
 
-                      <!-- Valores ficticios -->
-                      <div class="bars">
+                      <!-- Se actualiza por JS con los datos del Sheet -->
+                      <div class="bars" id="progress-bars">
                         <div class="bar-col">
                           <div class="bar-pair">
-                            <div class="bar peso" style="--h: 35"></div>
-                            <div class="bar pct"  style="--h: 22"></div>
+                            <div class="bar peso" style="--h: 0"></div>
+                            <div class="bar pct"  style="--h: 0"></div>
                           </div>
                           <div class="bar-label">Ene</div>
                         </div>
                         <div class="bar-col">
                           <div class="bar-pair">
-                            <div class="bar peso" style="--h: 48"></div>
-                            <div class="bar pct"  style="--h: 30"></div>
+                            <div class="bar peso" style="--h: 0"></div>
+                            <div class="bar pct"  style="--h: 0"></div>
                           </div>
                           <div class="bar-label">Feb</div>
                         </div>
                         <div class="bar-col">
                           <div class="bar-pair">
-                            <div class="bar peso" style="--h: 28"></div>
-                            <div class="bar pct"  style="--h: 18"></div>
+                            <div class="bar peso" style="--h: 0"></div>
+                            <div class="bar pct"  style="--h: 0"></div>
                           </div>
                           <div class="bar-label">Mar</div>
                         </div>
                         <div class="bar-col">
                           <div class="bar-pair">
-                            <div class="bar peso" style="--h: 56"></div>
-                            <div class="bar pct"  style="--h: 40"></div>
+                            <div class="bar peso" style="--h: 0"></div>
+                            <div class="bar pct"  style="--h: 0"></div>
                           </div>
                           <div class="bar-label">Abr</div>
                         </div>
                         <div class="bar-col">
                           <div class="bar-pair">
-                            <div class="bar peso" style="--h: 42"></div>
-                            <div class="bar pct"  style="--h: 34"></div>
+                            <div class="bar peso" style="--h: 0"></div>
+                            <div class="bar pct"  style="--h: 0"></div>
                           </div>
                           <div class="bar-label">May</div>
                         </div>
                         <div class="bar-col">
                           <div class="bar-pair">
-                            <div class="bar peso" style="--h: 62"></div>
-                            <div class="bar pct"  style="--h: 46"></div>
+                            <div class="bar peso" style="--h: 0"></div>
+                            <div class="bar pct"  style="--h: 0"></div>
                           </div>
                           <div class="bar-label">Jun</div>
                         </div>
@@ -1153,7 +1153,9 @@
     const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbwqOzf3xeKkibu5_uCxL5XA8apMdfQSdpUNsopMvaUU2pTSwHkdi0hrbMlBUAwZXupb/exec';
 
     let __PLAN_CACHE__ = [];
+    let __TRAIN_CACHE__ = [];
     let __ALUMNO_CACHE__ = null;
+    let __PROG_CACHE__ = null;
     let __PROFILE_TAB__ = 'perfil';
 
 /* ✅ iOS: intenta forzar autoplay del video de fondo en login */
@@ -1268,11 +1270,20 @@
       document.getElementById('alumno-objetivo').textContent = '';
       document.getElementById('alumno-fecha').textContent = '';
 
+      // ✅ reset progreso
+      document.getElementById('prog-peso-actual').textContent = '0 kg';
+      document.getElementById('prog-peso-promedio').textContent = '0 kg';
+      document.getElementById('prog-peso-ideal').textContent = '0 kg';
+      document.getElementById('prog-avance').textContent = '0%';
+      resetProgressBars_();
+
       const contenedor = document.getElementById('plan-nutricional');
       if (contenedor) contenedor.innerHTML = '';
 
       __PLAN_CACHE__ = [];
+      __TRAIN_CACHE__ = [];
       __ALUMNO_CACHE__ = null;
+      __PROG_CACHE__ = null;
       __PROFILE_TAB__ = 'perfil';
 
       try { document.activeElement && document.activeElement.blur && document.activeElement.blur(); } catch(e) {}
@@ -1308,8 +1319,8 @@
         perfilView.style.display = 'none';
         progresoView.style.display = 'block';
 
-        sectionTitle.style.display = 'none';
-        document.getElementById('plan-nutricional').innerHTML = '';
+        // ✅ Mantener el contenido de la sección inferior para permitir scroll (perfil/progreso)
+        // No ocultamos el título ni limpiamos las cards.
       } else {
         btnPerfil.classList.add('active'); btnPerfil.setAttribute('aria-selected','true');
         btnProgreso.classList.remove('active'); btnProgreso.setAttribute('aria-selected','false');
@@ -1317,7 +1328,11 @@
         progresoView.style.display = 'none';
 
         sectionTitle.style.display = 'flex';
-        renderDiet(__PLAN_CACHE__);
+
+        // ✅ Render según tab principal activo
+        const isTrain = document.getElementById('tab-entrenamiento').classList.contains('active');
+        if (isTrain) renderTraining(__TRAIN_CACHE__);
+        else renderDiet(__PLAN_CACHE__);
       }
     }
 
@@ -1325,6 +1340,25 @@
       const sectionTitle = document.getElementById('section-title');
       sectionTitle.style.display = 'flex';
       sectionTitle.innerHTML = '<h2 class="attn">Tu dieta personalizada</h2>';
+
+      const contenedor = document.getElementById('plan-nutricional');
+      contenedor.innerHTML = '';
+
+      (plan || []).forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+          <h3>${item.seccion}</h3>
+          <p>${item.detalles}</p>
+        `;
+        contenedor.appendChild(div);
+      });
+    }
+
+    function renderTraining(plan) {
+      const sectionTitle = document.getElementById('section-title');
+      sectionTitle.style.display = 'flex';
+      sectionTitle.innerHTML = '<h2 class="attn">Tu entrenamiento personalizado</h2>';
 
       const contenedor = document.getElementById('plan-nutricional');
       contenedor.innerHTML = '';
@@ -1370,11 +1404,13 @@
       };
 
       tabEnt.onclick = () => {
+        // ✅ Ya NO muestra “Próximamente”. Renderiza el entrenamiento desde Google Sheets.
         setMainTab('entrenamiento');
-        openModal(
-          'Entrenamiento',
-          '<strong>Próximamente</strong> 💪<br>Estamos preparando tu sección de entrenamiento.'
-        );
+        const sectionTitle = document.getElementById('section-title');
+        sectionTitle.style.display = 'flex';
+        sectionTitle.innerHTML = '<h2 class="attn">Tu entrenamiento personalizado</h2>';
+        renderTraining(__TRAIN_CACHE__);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       };
     }
 
@@ -1400,6 +1436,72 @@
       document.addEventListener('keydown', (e) => {
         const modal = document.getElementById('modal-prox');
         if (e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+      });
+    }
+
+    function resetProgressBars_() {
+      const barsWrap = document.getElementById('progress-bars');
+      if (!barsWrap) return;
+      const cols = Array.from(barsWrap.querySelectorAll('.bar-col'));
+      cols.forEach(col => {
+        const bPeso = col.querySelector('.bar.peso');
+        const bPct  = col.querySelector('.bar.pct');
+        const lbl   = col.querySelector('.bar-label');
+        if (bPeso) bPeso.style.setProperty('--h', 0);
+        if (bPct)  bPct.style.setProperty('--h', 0);
+        if (lbl)   lbl.textContent = (lbl.textContent || '').trim() || '';
+      });
+    }
+
+    function toNumber_(v) {
+      // soporta "78,5", "98,30%", "74.1 kg", etc.
+      const s = String(v || '').trim();
+      if (!s) return 0;
+      const cleaned = s
+        .replace(/[%]/g, '')
+        .replace(/[^\d,.\-]/g, '')    // deja dígitos , . -
+        .replace(/\.(?=\d{3}(\D|$))/g, '') // quita puntos miles (1.234 -> 1234)
+        .replace(',', '.');           // decimal coma -> punto
+      const n = parseFloat(cleaned);
+      return isFinite(n) ? n : 0;
+    }
+
+    function applyProgress_(prog) {
+      if (!prog) return;
+
+      const kv = prog.kv || {};
+      document.getElementById('prog-peso-actual').textContent   = kv.pesoActual   || '0 kg';
+      document.getElementById('prog-peso-promedio').textContent = kv.pesoPromedio || '0 kg';
+      document.getElementById('prog-peso-ideal').textContent    = kv.pesoIdeal    || '0 kg';
+      document.getElementById('prog-avance').textContent        = kv.avance       || '0%';
+
+      const months = Array.isArray(prog.meses) ? prog.meses : [];
+      const barsWrap = document.getElementById('progress-bars');
+      if (!barsWrap) return;
+
+      const cols = Array.from(barsWrap.querySelectorAll('.bar-col'));
+
+      // normalización de pesos (a 0..100)
+      const pesoNums = months.map(m => toNumber_(m.peso));
+      const maxPeso = Math.max(0, ...pesoNums);
+
+      cols.forEach((col, idx) => {
+        const m = months[idx] || {};
+        const bPeso = col.querySelector('.bar.peso');
+        const bPct  = col.querySelector('.bar.pct');
+        const lbl   = col.querySelector('.bar-label');
+
+        const peso = toNumber_(m.peso);
+        let pct = toNumber_(m.pct);
+        if (pct > 0 && pct <= 1) pct = pct * 100;
+        if (pct > 100) pct = 100;
+
+        const hPeso = (maxPeso > 0) ? Math.round((peso / maxPeso) * 100) : 0;
+        const hPct  = Math.round(pct);
+
+        if (bPeso) bPeso.style.setProperty('--h', hPeso);
+        if (bPct)  bPct.style.setProperty('--h', hPct);
+        if (lbl)   lbl.textContent = (m.mes || lbl.textContent || '').toString().slice(0, 3);
       });
     }
 
@@ -1443,14 +1545,22 @@
 
         const alumno = datos.alumno || { nombre:"", peso:"", objetivo:"", fechaIngreso:"" };
         const plan = Array.isArray(datos.plan) ? datos.plan : [];
+        const entrenamiento = Array.isArray(datos.entrenamiento) ? datos.entrenamiento : [];
+        const progreso = (datos.progreso && typeof datos.progreso === 'object') ? datos.progreso : null;
 
         __ALUMNO_CACHE__ = alumno;
         __PLAN_CACHE__ = plan;
+        __TRAIN_CACHE__ = entrenamiento;
+        __PROG_CACHE__ = progreso;
 
         document.getElementById('alumno-nombre').textContent = alumno.nombre || '';
         document.getElementById('alumno-peso').textContent = alumno.peso || '';
         document.getElementById('alumno-objetivo').textContent = alumno.objetivo || '';
         document.getElementById('alumno-fecha').textContent = alumno.fechaIngreso || '';
+
+        // ✅ pinta progreso (si existe)
+        if (__PROG_CACHE__) applyProgress_(__PROG_CACHE__);
+        else resetProgressBars_();
 
         document.title = alumno.nombre ? `Plan Nutricional - ${alumno.nombre}` : 'Plan Nutricional';
 
