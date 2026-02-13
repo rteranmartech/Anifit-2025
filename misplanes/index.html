@@ -520,6 +520,77 @@
       line-height: 1.6;
     }
 
+
+    /* =========================================================
+       ✅ REFRESH VISUAL SOLO PARA CARDS (ALIMENTACIÓN / ENTRENAMIENTO)
+       - No cambia lógica ni estructura de datos
+       - Mejor legibilidad y adaptación mobile/desktop
+       ========================================================= */
+
+    /* Contenedor de cards: más aire y layout estable */
+    .cards{
+      gap: 14px;                 /* antes 12 */
+    }
+    @media (min-width: 900px){
+      .cards{
+        grid-template-columns: 1fr 1fr; /* se mantiene */
+        gap: 14px;
+      }
+    }
+
+    /* Card: más limpia, mejor jerarquía, borde/acento más fino */
+    .card{
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(11, 15, 25, .10);
+      box-shadow: 0 10px 26px rgba(11,15,25,.08);
+      padding: 16px 16px 16px 16px; /* se mantiene */
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    /* acento lateral un poco más suave y moderno */
+    .card::before{
+      width: 6px; /* antes 8 */
+      background: linear-gradient(180deg, rgba(39,174,96,1), rgba(39,174,96,.35));
+    }
+
+    /* Título: más claro, mejor separación */
+    .card h3{
+      padding-left: 12px;           /* antes 10 */
+      margin-bottom: 10px;
+      font-size: 12px;
+      letter-spacing: .16em;
+      color: rgba(11,15,25,.78);
+      gap: 12px;
+    }
+    .card h3::after{
+      background: rgba(11,15,25,.12);
+    }
+
+    /* Texto: mejor contraste y lectura en mobile */
+    .card p{
+      padding-left: 12px;          /* antes 10 */
+      color: rgba(11,15,25,.84);
+      line-height: 1.7;
+    }
+
+    /* Hover: solo desktop (evita “saltitos” en mobile) */
+    @media (hover: hover) and (pointer: fine){
+      .card:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 18px 40px rgba(11,15,25,.12);
+        border-color: rgba(11,15,25,.14);
+      }
+    }
+
+    /* Ajuste mobile: más compacta sin perder aire */
+    @media (max-width: 480px){
+      .cards{ gap: 12px; }
+      .card{ padding: 14px; border-radius: 16px; }
+      .card h3{ padding-left: 10px; }
+      .card p{ padding-left: 10px; }
+    }
+
+
     /* =========================
        LOGIN (PREMIUM APP)
        ========================= */
@@ -974,8 +1045,8 @@
         <section class="hero" aria-label="Encabezado del plan nutricional">
           <div class="hero-inner">
             <div>
-              <h1>Mis Planes</h1>
-              <p>Aqui encontraras información general sobre tus planes de alimentación y entrenamiento.</p>
+              <h1>Plan de Alimentación</h1>
+              <p>Información general sobre tu plan de alimentación.</p>
             </div>
 
             <aside class="profile" aria-label="Resumen del alumno" id="perfil-card">
@@ -1032,7 +1103,7 @@
 
                     <div class="chart" aria-label="Gráfico de avance mensual">
                       <div class="chart-top">
-                        <div class="chart-title"></div>
+                        <div class="chart-title">Barras de avance</div>
                         <div class="chart-legend">
                           <span><span class="dot peso"></span> Peso</span>
                           <span><span class="dot pct"></span> %</span>
