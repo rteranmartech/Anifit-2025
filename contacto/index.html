@@ -159,7 +159,6 @@
 </div>
 
 <script>
-  // URL de tu Web App de Google Apps Script
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4H4RMvqOc_XZbB6T9Joxz0PcB4NhhhMlWieR25smYipYoHIT4dHVqXps_p3U1VRj5/exec";
 
   document.getElementById("form").addEventListener("submit", async function(e) {
@@ -170,19 +169,17 @@
     btn.textContent = "Enviando...";
     msg.style.display = "none";
 
-    // Usamos FormData (el script lee e.parameter.nombre, etc.)
-    const formData = new FormData();
-    formData.append("nombre",   document.getElementById("nombre").value);
-    formData.append("mail",     document.getElementById("mail").value);
-    formData.append("telefono", document.getElementById("telefono").value);
-    formData.append("nota",     document.getElementById("nota").value);
+    // GET con parámetros en la URL — evita todos los problemas de CORS
+    const params = new URLSearchParams({
+      nombre:   document.getElementById("nombre").value,
+      mail:     document.getElementById("mail").value,
+      telefono: document.getElementById("telefono").value,
+      nota:     document.getElementById("nota").value,
+    });
 
     try {
-      // mode: "no-cors" resuelve el bloqueo CORS desde dominios externos.
-      // La respuesta es opaca (no se puede leer), pero el script igual ejecuta.
-      await fetch(SCRIPT_URL, {
-        method: "POST",
-        body: formData,
+      const res = await fetch(SCRIPT_URL + "?" + params.toString(), {
+        method: "GET",
         mode: "no-cors",
       });
 
