@@ -7,123 +7,56 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0d0d0d;
-      --surface: #161616;
-      --border: #2a2a2a;
-      --accent: #c8f135;
-      --text: #f0ede6;
-      --muted: #666;
-      --radius: 12px;
+      --bg: #0d0d0d; --surface: #161616; --border: #2a2a2a;
+      --accent: #c8f135; --text: #f0ede6; --muted: #666; --radius: 12px;
     }
-
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
+      background: var(--bg); color: var(--text);
+      font-family: 'DM Sans', sans-serif; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; padding: 2rem;
     }
-
     .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 3rem 2.5rem;
-      width: 100%;
-      max-width: 480px;
-      position: relative;
-      overflow: hidden;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 3rem 2.5rem; width: 100%; max-width: 480px;
+      position: relative; overflow: hidden;
     }
-
     .card::before {
-      content: '';
-      position: absolute;
-      top: -80px; right: -80px;
+      content: ''; position: absolute; top: -80px; right: -80px;
       width: 200px; height: 200px;
       background: radial-gradient(circle, rgba(200,241,53,0.12), transparent 70%);
       pointer-events: none;
     }
-
-    h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2rem;
-      line-height: 1.15;
-      margin-bottom: 0.4rem;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: 0.875rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .field {
-      margin-bottom: 1.4rem;
-    }
-
+    h1 { font-family: 'DM Serif Display', serif; font-size: 2rem; line-height: 1.15; margin-bottom: 0.4rem; }
+    .subtitle { color: var(--muted); font-size: 0.875rem; margin-bottom: 2.5rem; }
+    .field { margin-bottom: 1.4rem; }
     label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.5rem;
+      display: block; font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.5rem;
     }
-
     input, textarea {
-      width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      padding: 0.75rem 1rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+      padding: 0.75rem 1rem; transition: border-color 0.2s, box-shadow 0.2s; outline: none;
     }
-
     input:focus, textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(200,241,53,0.08);
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,241,53,0.08);
     }
-
-    textarea {
-      resize: vertical;
-      min-height: 110px;
-    }
-
+    textarea { resize: vertical; min-height: 110px; }
     button {
-      width: 100%;
-      background: var(--accent);
-      color: #0d0d0d;
-      border: none;
-      border-radius: var(--radius);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 500;
-      padding: 0.9rem;
-      cursor: pointer;
-      margin-top: 0.5rem;
-      transition: opacity 0.2s, transform 0.1s;
+      width: 100%; background: var(--accent); color: #0d0d0d; border: none;
+      border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem; font-weight: 500; padding: 0.9rem; cursor: pointer;
+      margin-top: 0.5rem; transition: opacity 0.2s, transform 0.1s;
     }
-
     button:hover { opacity: 0.88; }
     button:active { transform: scale(0.99); }
     button:disabled { opacity: 0.5; cursor: not-allowed; }
-
     .msg {
-      margin-top: 1rem;
-      padding: 0.8rem 1rem;
-      border-radius: var(--radius);
-      font-size: 0.875rem;
-      display: none;
+      margin-top: 1rem; padding: 0.8rem 1rem; border-radius: var(--radius);
+      font-size: 0.875rem; display: none;
     }
     .msg.success { background: rgba(200,241,53,0.1); border: 1px solid rgba(200,241,53,0.3); color: var(--accent); }
     .msg.error   { background: rgba(255,80,80,0.1);  border: 1px solid rgba(255,80,80,0.3);  color: #ff6b6b; }
@@ -131,11 +64,18 @@
 </head>
 <body>
 
+<!-- iframe oculto: recibe la respuesta del form sin redirigir la página -->
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
 <div class="card">
   <h1>Contacto</h1>
   <p class="subtitle">Completá el formulario y nos comunicamos a la brevedad.</p>
 
-  <form id="form">
+  <form id="form"
+        method="GET"
+        action="https://script.google.com/macros/s/AKfycbz9UX7gv8Z4WY9IL875HOjMSh_eIHVnB91sHnZYCwuWgozA79zRd2Whgj6vYpCt8gn8/exec"
+        target="hidden_iframe">
+
     <div class="field">
       <label for="nombre">Nombre y Apellido</label>
       <input type="text" id="nombre" name="nombre" placeholder="Ej: María González" required/>
@@ -153,48 +93,28 @@
       <textarea id="nota" name="nota" placeholder="Escribí tu mensaje aquí..."></textarea>
     </div>
 
-    <button type="submit" id="btn">Enviar →</button>
+    <button type="submit" id="btn">Enviar</button>
     <div class="msg" id="msg"></div>
   </form>
 </div>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz9UX7gv8Z4WY9IL875HOjMSh_eIHVnB91sHnZYCwuWgozA79zRd2Whgj6vYpCt8gn8/exec";
-
-  document.getElementById("form").addEventListener("submit", async function(e) {
-    e.preventDefault();
+  document.getElementById("form").addEventListener("submit", function() {
     const btn = document.getElementById("btn");
     const msg = document.getElementById("msg");
+
     btn.disabled = true;
     btn.textContent = "Enviando...";
     msg.style.display = "none";
 
-    // GET con parámetros en la URL — evita todos los problemas de CORS
-    const params = new URLSearchParams({
-      nombre:   document.getElementById("nombre").value,
-      mail:     document.getElementById("mail").value,
-      telefono: document.getElementById("telefono").value,
-      nota:     document.getElementById("nota").value,
-    });
-
-    try {
-      const res = await fetch(SCRIPT_URL + "?" + params.toString(), {
-        method: "GET",
-        mode: "no-cors",
-      });
-
+    setTimeout(function() {
       msg.className = "msg success";
       msg.textContent = "✓ ¡Formulario enviado correctamente!";
-      this.reset();
-
-    } catch (err) {
-      msg.className = "msg error";
-      msg.textContent = "✗ Hubo un error al enviar. Intentá de nuevo.";
-    }
-
-    msg.style.display = "block";
-    btn.disabled = false;
-    btn.textContent = "Enviar →";
+      msg.style.display = "block";
+      document.getElementById("form").reset();
+      btn.disabled = false;
+      btn.textContent = "Enviar";
+    }, 1800);
   });
 </script>
 </body>
