@@ -161,6 +161,10 @@
         color: var(--text-main);
       }
       .nav-center{ gap: .6rem; }
+
+      /* ✅ Solo en esta página: ocultar el botón/link "Contacto" en desktop.
+         (Queda disponible solo en el menú mobile/hamburguesa) */
+      .nav-center{ display:none !important; }
     }
 
     @media (max-width: 900px){
@@ -186,7 +190,7 @@
       font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 900;
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 1.4rem; /* ajustado para dejar espacio a la bajada */
       position: relative;
       display: inline-block;
       width: 100%;
@@ -201,6 +205,15 @@
       height: 3px;
       background-color: var(--brand);
       border-radius: 2px;
+    }
+
+    /* ✅ Bajada debajo de "Contacto" (fuera de la card) */
+    .section-subtitle{
+      text-align:center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 760px;
+      margin: 0 auto 2.1rem;
     }
 
     .contact-wrap {
@@ -232,10 +245,6 @@
       pointer-events:none;
     }
     .contact-card > * { position: relative; z-index: 1; }
-
-    .contact-head { margin-bottom: 1.25rem; }
-    .contact-head h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); }
-    .contact-head p { color: var(--text-muted); }
 
     .field { margin-bottom: 1rem; }
     label{
@@ -312,7 +321,7 @@
       </div>
 
       <nav class="nav-center nav-links" id="primary-nav" role="navigation" aria-label="principal">
-        <!-- SOLO TEXTO + HREF: no afecta lógica JS existente -->
+        <!-- Solo visible desde menú mobile (en desktop se oculta con CSS) -->
         <a class="nav-link active" href="#contacto" data-navlink>Contacto</a>
       </nav>
 
@@ -328,16 +337,13 @@
 
     <section id="contacto" aria-label="Contacto ANIFIT">
       <div class="container">
-        <!-- SOLO TEXTO: no afecta lógica -->
         <h2 class="section-title">Contacto</h2>
+
+        <!-- ✅ Bajada fuera de la card -->
+        <p class="section-subtitle">Completa el formulario y nos comunicamos a la brevedad.</p>
 
         <div class="contact-wrap">
           <div class="contact-card">
-            <div class="contact-head">
-              <h1>Hablemos</h1>
-              <p>Completa el formulario y nos comunicamos a la brevedad.</p>
-            </div>
-
             <form id="form"
               method="GET"
               action="https://script.google.com/macros/s/AKfycbwbm4ncy-pQehzQjb7RZsGXpRC9y3O1h8Kc1GrcoStLfzY-UbickN9GjkVg9Bxjn6LS/exec"
