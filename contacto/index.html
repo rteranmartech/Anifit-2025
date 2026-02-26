@@ -1,121 +1,453 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Formulario de Contacto</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ANIFIT — Contacto</title>
+
+  <meta name="description" content="Formulario de contacto ANIFIT. Completa tus datos y te contactamos a la brevedad." />
+  <meta name="theme-color" content="#25d366" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="canonical" href="https://tudominio.cl/contacto" />
+
+  <meta property="og:title" content="ANIFIT — Contacto" />
+  <meta property="og:description" content="Completa el formulario y nos comunicamos a la brevedad." />
+  <meta property="og:image" content="https://tudominio.cl/og.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Si tu sitio usa CSP, recuerda permitir el dominio de Google Apps Script en form-action (ver nota al final). -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src 'self' https://i.postimg.cc https://www.google-analytics.com data:;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src https://fonts.gstatic.com;
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
+    connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;
+    base-uri 'self';
+    form-action 'self' https://script.google.com;
+    frame-src https://script.google.com;
+  " />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7XETGW8F61"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7XETGW8F61');
+  </script>
+
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0d0d0d; --surface: #161616; --border: #2a2a2a;
-      --accent: #c8f135; --text: #f0ede6; --muted: #666; --radius: 12px;
+      --bg: #0b0d10;
+      --text-main: #f4f6f8;
+      --text-muted: #9aa3b2;
+      --brand: #25d366;
+      --brand-light: #32e27a;
+      --card: #14171c;
+      --stroke: #2a2d32;
+      --font-family: 'Poppins', sans-serif;
     }
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: 'DM Sans', sans-serif; min-height: 100vh;
-      display: flex; align-items: center; justify-content: center; padding: 2rem;
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      scroll-behavior: smooth;
+      font-family: var(--font-family);
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+    section { padding: clamp(3rem, 6vw, 5rem) 0; scroll-margin-top: 80px; }
+    a { color: var(--brand); text-decoration: none; transition: color .2s ease, background-color .2s ease, border-color .2s ease; }
+    a:hover { color: var(--brand-light); }
+    h1, h2, h3 { margin: 0 0 .5rem; font-weight: 800; line-height: 1.2; }
+    p { margin: 0; }
+    .container { width: min(1200px, 92vw); margin-inline: auto; }
+    .muted { color: var(--text-muted); }
+
+    /* Accesibilidad */
+    .skip-link{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .skip-link:focus{ position:fixed; left:1rem; top:1rem; width:auto; height:auto; padding:.5rem 1rem; background:#fff; color:#000; border-radius:.5rem; z-index:9999; }
+
+    /* Card / UI del sitio */
     .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 3rem 2.5rem; width: 100%; max-width: 480px;
-      position: relative; overflow: hidden;
+      background-color: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 1rem;
+      padding: 1.1rem;
+      transition: transform .3s ease, box-shadow .3s ease;
     }
-    .card::before {
-      content: ''; position: absolute; top: -80px; right: -80px;
-      width: 200px; height: 200px;
-      background: radial-gradient(circle, rgba(200,241,53,0.12), transparent 70%);
-      pointer-events: none;
+    .card:hover { transform: translateY(-0.35rem); box-shadow: 0 1rem 2rem rgba(0,0,0,0.2); will-change: transform, box-shadow; }
+
+    /* Botones del sitio */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 1.1rem;
+      border-radius: 0.75rem;
+      font-weight: 800;
+      text-align: center;
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease, opacity .2s ease;
+      gap: .5rem;
+      border: 0;
+      cursor: pointer;
     }
-    h1 { font-family: 'DM Serif Display', serif; font-size: 2rem; line-height: 1.15; margin-bottom: 0.4rem; }
-    .subtitle { color: var(--muted); font-size: 0.875rem; margin-bottom: 2.5rem; }
-    .field { margin-bottom: 1.4rem; }
-    label {
-      display: block; font-size: 0.75rem; font-weight: 500;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 0.5rem;
+    .btn-primary {
+      background-color: var(--brand);
+      color: var(--bg);
+      box-shadow: 0 5px 15px rgba(37,211,102,0.3);
     }
-    input, textarea {
-      width: 100%; background: var(--bg); border: 1px solid var(--border);
-      border-radius: var(--radius); color: var(--text);
-      font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
-      padding: 0.75rem 1rem; transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+    .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 8px 20px rgba(37,211,102,0.45); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* ===================== NAVEGACIÓN ===================== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(11,13,16,0.75);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--stroke);
+      transition: background-color .25s ease, box-shadow .25s ease, border-color .25s ease;
     }
-    input:focus, textarea:focus {
-      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,241,53,0.08);
+    .nav.scrolled { background-color: rgba(11,13,16,0.92); box-shadow: 0 8px 24px rgba(0,0,0,0.35); border-color: #32363c; }
+
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: .7rem 0; gap: .75rem; }
+    .brand { display: flex; align-items: center; gap: .55rem; font-weight: 900; font-size: 1.35rem; letter-spacing: .3px; }
+    .nav-left { display:flex; align-items:center; gap:1rem; }
+    .nav-center { display:flex; align-items:center; gap: 1.4rem; }
+    .nav-right { display:flex; align-items:center; gap: .6rem; }
+    .nav-links { display: flex; gap: 1.4rem; align-items: center; }
+    .nav-link { font-weight: 600; color: var(--text-muted); position: relative; transition: color .2s ease; }
+    .nav-link:hover, .nav-link.active { color: var(--text-main); }
+    .nav-link::after { content: ''; position: absolute; left: 0; bottom: -6px; width: 0; height: 2px; background-color: var(--brand); transition: width .25s ease; }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .hamburger { display: none; background: none; border: 1px solid var(--stroke); color: var(--text-main); font-size: 1.1rem; border-radius: .6rem; padding: .4rem .6rem; }
+
+    @media (min-width: 901px) {
+      .nav-inner{
+        display:grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items:center;
+        padding:.75rem 0;
+      }
+      .nav-left{ justify-self:start; }
+      .nav-center{ justify-self:center; }
+      .nav-right{ justify-self:end; }
+
+      .nav-center .nav-link{
+        color: var(--text-main);
+        padding: .55rem .9rem;
+        border: 1px solid var(--stroke);
+        border-radius: .7rem;
+        background: rgba(255,255,255,0.02);
+        line-height: 1;
+      }
+      .nav-center .nav-link::after{ content:none; }
+      .nav-center .nav-link:hover,
+      .nav-center .nav-link.active{
+        border-color: rgba(255,255,255,0.18);
+        background: rgba(255,255,255,0.05);
+        color: var(--text-main);
+      }
+      .nav-center{ gap: .6rem; }
     }
-    textarea { resize: vertical; min-height: 110px; }
-    button {
-      width: 100%; background: var(--accent); color: #0d0d0d; border: none;
-      border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem; font-weight: 500; padding: 0.9rem; cursor: pointer;
-      margin-top: 0.5rem; transition: opacity 0.2s, transform 0.1s;
+
+    @media (max-width: 900px){
+      .nav-center { display: none; }
+      .hamburger { display: block; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: rgba(11,13,16,0.96);
+        padding: 1rem;
+        border-top: 1px solid var(--stroke);
+      }
+      .nav-links.active { display: flex; }
+      .nav-links a { padding: .4rem 0; }
     }
-    button:hover { opacity: 0.88; }
-    button:active { transform: scale(0.99); }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
-    .msg {
-      margin-top: 1rem; padding: 0.8rem 1rem; border-radius: var(--radius);
-      font-size: 0.875rem; display: none;
+
+    /* ===================== CONTACTO (misma lógica, estilo ANIFIT) ===================== */
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+      display: inline-block;
+      width: 100%;
     }
-    .msg.success { background: rgba(200,241,53,0.1); border: 1px solid rgba(200,241,53,0.3); color: var(--accent); }
-    .msg.error   { background: rgba(255,80,80,0.1);  border: 1px solid rgba(255,80,80,0.3);  color: #ff6b6b; }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background-color: var(--brand);
+      border-radius: 2px;
+    }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.1rem;
+      align-items: start;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .contact-card {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(1.2rem, 2.5vw, 2rem);
+      background:
+        radial-gradient(1200px 240px at 10% 0%, rgba(37,211,102,0.12), transparent 60%),
+        linear-gradient(180deg, #171a1f 0%, #111418 100%);
+      border: 1px solid var(--stroke);
+      border-radius: 1rem;
+    }
+    .contact-card::after{
+      content:'';
+      position:absolute;
+      inset:-2px;
+      background: conic-gradient(from 180deg at 50% 50%, rgba(37,211,102,.18), transparent 40%, rgba(37,211,102,.18) 80%, transparent 100%);
+      filter: blur(24px);
+      opacity:.25;
+      pointer-events:none;
+    }
+    .contact-card > * { position: relative; z-index: 1; }
+
+    .contact-head { margin-bottom: 1.25rem; }
+    .contact-head h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); }
+    .contact-head p { color: var(--text-muted); }
+
+    .field { margin-bottom: 1rem; }
+    label{
+      display:block;
+      font-size: .85rem;
+      font-weight: 700;
+      margin-bottom: .45rem;
+      color: var(--text-muted);
+    }
+    input, textarea{
+      width:100%;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--stroke);
+      border-radius: .85rem;
+      padding: .85rem 1rem;
+      color: var(--text-main);
+      font-family: var(--font-family);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(37,211,102,0.7);
+      box-shadow: 0 0 0 3px rgba(37,211,102,0.12);
+      background: rgba(255,255,255,0.03);
+    }
+    textarea { resize: vertical; min-height: 130px; }
+
+    .msg{
+      margin-top: 1rem;
+      padding: .85rem 1rem;
+      border-radius: .85rem;
+      font-size: .95rem;
+      display: none;
+      border: 1px solid transparent;
+    }
+    .msg.success{
+      background: rgba(37,211,102,0.10);
+      border-color: rgba(37,211,102,0.35);
+      color: var(--brand-light);
+    }
+    .msg.error{
+      background: rgba(255,80,80,0.10);
+      border-color: rgba(255,80,80,0.30);
+      color: #ff6b6b;
+    }
+
+    /* Footer */
+    footer{
+      text-align: center;
+      padding: 2rem 0 1.5rem;
+      font-size: .9rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--stroke);
+      margin-top: 2rem;
+    }
+    footer .logo{
+      font-weight: 900;
+      color: var(--text-main);
+      font-size: 1rem;
+      margin-bottom: .25rem;
+    }
   </style>
 </head>
+
 <body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
 
-<!-- iframe oculto: recibe la respuesta del form sin redirigir la página -->
-<iframe name="hidden_iframe" style="display:none;"></iframe>
+  <header class="nav" id="site-nav">
+    <div class="container nav-inner">
+      <div class="nav-left">
+        <!-- NO CAMBIADO: mantiene tu href original -->
+        <a class="brand" href="index.html#home" aria-label="Inicio ANIFIT">ANIFIT</a>
+      </div>
 
-<div class="card">
-  <h1>Contacto</h1>
-  <p class="subtitle">Completá el formulario y nos comunicamos a la brevedad.</p>
+      <nav class="nav-center nav-links" id="primary-nav" role="navigation" aria-label="principal">
+        <!-- SOLO TEXTO + HREF: no afecta lógica JS existente -->
+        <a class="nav-link active" href="#contacto" data-navlink>Contacto</a>
+      </nav>
 
-  <form id="form"
-        method="GET"
-        action="https://script.google.com/macros/s/AKfycbyQCR9ZPZCsukx3g2NicFQ3uzqjCJUNpg9XuPhg7G8BUOPyZi1z4VdaaHc_5LFZtqGj/exec"
-        target="hidden_iframe">
-
-    <div class="field">
-      <label for="nombre">Nombre y Apellido</label>
-      <input type="text" id="nombre" name="nombre" placeholder="Ej: María González" required/>
+      <div class="nav-right header-cta" aria-label="acciones rápidas">
+        <button class="hamburger" aria-label="Abrir menú" aria-controls="primary-nav" aria-expanded="false">☰</button>
+      </div>
     </div>
-    <div class="field">
-      <label for="mail">Mail</label>
-      <input type="email" id="mail" name="mail" placeholder="tu@email.com" required/>
+  </header>
+
+  <main id="main">
+    <!-- iframe oculto: recibe la respuesta del form sin redirigir la página -->
+    <iframe name="hidden_iframe" style="display:none;" title="hidden_iframe"></iframe>
+
+    <section id="contacto" aria-label="Contacto ANIFIT">
+      <div class="container">
+        <!-- SOLO TEXTO: no afecta lógica -->
+        <h2 class="section-title">Contacto</h2>
+
+        <div class="contact-wrap">
+          <div class="contact-card">
+            <div class="contact-head">
+              <h1>Hablemos</h1>
+              <p>Completa el formulario y nos comunicamos a la brevedad.</p>
+            </div>
+
+            <form id="form"
+              method="GET"
+              action="https://script.google.com/macros/s/AKfycbwbm4ncy-pQehzQjb7RZsGXpRC9y3O1h8Kc1GrcoStLfzY-UbickN9GjkVg9Bxjn6LS/exec"
+              target="hidden_iframe"
+              autocomplete="on">
+
+              <div class="field">
+                <label for="nombre">Nombre y Apellido</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: María González" required />
+              </div>
+
+              <div class="field">
+                <label for="mail">Mail</label>
+                <input type="email" id="mail" name="mail" placeholder="tu@email.com" required />
+              </div>
+
+              <div class="field">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="+56 9 1234 5678" />
+              </div>
+
+              <div class="field">
+                <label for="nota">Nota</label>
+                <textarea id="nota" name="nota" placeholder="Escribe tu mensaje aquí..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="btn">Enviar</button>
+              <div class="msg" id="msg"></div>
+            </form>
+
+            <p class="muted" style="margin-top:1rem; font-size:.95rem;">
+              <a href="" target="_blank" rel="noopener noreferrer"></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="logo">ANIFIT</div>
+      <p>&copy; 2024 ANIFIT — Todos los derechos reservados.</p>
     </div>
-    <div class="field">
-      <label for="telefono">Teléfono</label>
-      <input type="tel" id="telefono" name="telefono" placeholder="+54 11 1234-5678"/>
-    </div>
-    <div class="field">
-      <label for="nota">Nota</label>
-      <textarea id="nota" name="nota" placeholder="Escribí tu mensaje aquí..."></textarea>
-    </div>
+  </footer>
 
-    <button type="submit" id="btn">Enviar</button>
-    <div class="msg" id="msg"></div>
-  </form>
-</div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Scroll header animation
+      const nav = document.getElementById('site-nav');
+      if (nav) {
+        let isScrolled = false;
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 50 && !isScrolled) {
+            nav.classList.add('scrolled');
+            isScrolled = true;
+          } else if (window.scrollY <= 50 && isScrolled) {
+            nav.classList.remove('scrolled');
+            isScrolled = false;
+          }
+        });
+      }
 
-<script>
-  document.getElementById("form").addEventListener("submit", function() {
-    const btn = document.getElementById("btn");
-    const msg = document.getElementById("msg");
+      // Hamburger menu toggle (mobile)
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.getElementById('primary-nav');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+          const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
+          hamburger.setAttribute('aria-expanded', !expanded);
+          navLinks.classList.toggle('active');
+        });
+      }
 
-    btn.disabled = true;
-    btn.textContent = "Enviando...";
-    msg.style.display = "none";
+      // Mantener el MISMO funcionamiento del form original:
+      // - se envía por GET al Apps Script usando iframe oculto
+      // - se muestra éxito "simulado" a los ~1.8s
+      // (sin depender de la respuesta del servidor)
+      const form = document.getElementById('form');
+      const btn = document.getElementById('btn');
+      const msg = document.getElementById('msg');
 
-    setTimeout(function() {
-      msg.className = "msg success";
-      msg.textContent = "✓ ¡Formulario enviado correctamente!";
-      msg.style.display = "block";
-      document.getElementById("form").reset();
-      btn.disabled = false;
-      btn.textContent = "Enviar";
-    }, 1800);
-  });
-</script>
+      if (form) {
+        form.addEventListener('submit', function () {
+          btn.disabled = true;
+          btn.textContent = 'Enviando...';
+          msg.style.display = 'none';
+
+          setTimeout(function () {
+            msg.className = 'msg success';
+            msg.textContent = '✓ ¡Formulario enviado correctamente!';
+            msg.style.display = 'block';
+            form.reset();
+            btn.disabled = false;
+            btn.textContent = 'Enviar';
+          }, 1800);
+        });
+      }
+    });
+  </script>
+
+  <!--
+    Nota CSP:
+    Si en tu HTML original tenías:
+      form-action 'self';
+    eso bloqueará el POST/GET hacia https://script.google.com.
+    En esta página dejé:
+      form-action 'self' https://script.google.com;
+      frame-src https://script.google.com;
+    para que el iframe + action funcionen.
+  -->
 </body>
 </html>
