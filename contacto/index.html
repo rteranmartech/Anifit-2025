@@ -159,7 +159,7 @@
 </div>
 
 <script>
-  // 👇 REEMPLAZÁ esta URL con la de tu Web App de Google Apps Script
+  // URL de tu Web App de Google Apps Script
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4H4RMvqOc_XZbB6T9Joxz0PcB4NhhhMlWieR25smYipYoHIT4dHVqXps_p3U1VRj5/exec";
 
   document.getElementById("form").addEventListener("submit", async function(e) {
@@ -170,27 +170,26 @@
     btn.textContent = "Enviando...";
     msg.style.display = "none";
 
-    const data = {
-      nombre:   document.getElementById("nombre").value,
-      mail:     document.getElementById("mail").value,
-      telefono: document.getElementById("telefono").value,
-      nota:     document.getElementById("nota").value,
-    };
+    // Usamos FormData (el script lee e.parameter.nombre, etc.)
+    const formData = new FormData();
+    formData.append("nombre",   document.getElementById("nombre").value);
+    formData.append("mail",     document.getElementById("mail").value);
+    formData.append("telefono", document.getElementById("telefono").value);
+    formData.append("nota",     document.getElementById("nota").value);
 
     try {
-      const res = await fetch(SCRIPT_URL, {
+      // mode: "no-cors" resuelve el bloqueo CORS desde dominios externos.
+      // La respuesta es opaca (no se puede leer), pero el script igual ejecuta.
+      await fetch(SCRIPT_URL, {
         method: "POST",
-        body: JSON.stringify(data),
+        body: formData,
+        mode: "no-cors",
       });
-      const json = await res.json();
 
-      if (json.result === "success") {
-        msg.className = "msg success";
-        msg.textContent = "✓ ¡Formulario enviado correctamente!";
-        this.reset();
-      } else {
-        throw new Error(json.error || "Error desconocido");
-      }
+      msg.className = "msg success";
+      msg.textContent = "✓ ¡Formulario enviado correctamente!";
+      this.reset();
+
     } catch (err) {
       msg.className = "msg error";
       msg.textContent = "✗ Hubo un error al enviar. Intentá de nuevo.";
