@@ -580,7 +580,7 @@
           loader.classList.add('active');
 
           const params = new URLSearchParams(new FormData(form)).toString();
-          const url = 'https://script.google.com/macros/s/AKfycbxpUm18ZuV3haZnnSdZ7PcPJ9D2bdHb5xFzlxpNf9IDC16k302_wah-rhjp0Ef2F9jl/exec' + params;
+          const url = 'https://script.google.com/macros/s/AKfycbxpUm18ZuV3haZnnSdZ7PcPJ9D2bdHb5xFzlxpNf9IDC16k302_wah-rhjp0Ef2F9jl/exec?' + params;
 
           fetch(url, { method: 'GET', mode: 'no-cors' }).catch(() => {});
 
