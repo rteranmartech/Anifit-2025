@@ -474,7 +474,6 @@
   </header>
 
   <main id="main">
-    <iframe name="hidden_iframe" style="display:none;" title="hidden_iframe"></iframe>
 
     <section id="contacto" aria-label="Contacto ANIFIT">
       <div class="container">
@@ -484,11 +483,9 @@
 
         <div class="contact-wrap">
           <div class="contact-card">
-            <form id="form"
-              method="GET"
-              action="https://script.google.com/macros/s/AKfycbwbm4ncy-pQehzQjb7RZsGXpRC9y3O1h8Kc1GrcoStLfzY-UbickN9GjkVg9Bxjn6LS/exec"
-              target="hidden_iframe"
-              autocomplete="on">
+            <form id="form" autocomplete="on">
+
+              <input type="hidden" name="origen" value="Contacto" />
 
               <div class="field">
                 <label for="nombre">Nombre y Apellido</label>
@@ -569,22 +566,32 @@
       const loader = document.getElementById('gym-loader');
 
       if (form) {
-        form.addEventListener('submit', function () {
+        let submitted = false;
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+
+          if (submitted) return;
+          submitted = true;
+
           btn.disabled = true;
           msg.style.display = 'none';
-
-          // ✅ Mostrar loader
           loader.classList.add('active');
 
-          setTimeout(function () {
-            // Ocultar loader
-            loader.classList.remove('active');
+          const params = new URLSearchParams(new FormData(form)).toString();
+          const url = 'https://script.google.com/macros/s/AKfycbxpUm18ZuV3haZnnSdZ7PcPJ9D2bdHb5xFzlxpNf9IDC16k302_wah-rhjp0Ef2F9jl/exec' + params;
 
+          fetch(url, { method: 'GET', mode: 'no-cors' }).catch(() => {});
+
+          setTimeout(function () {
+            loader.classList.remove('active');
             msg.className = 'msg success';
             msg.textContent = '✓ ¡Formulario enviado correctamente!';
             msg.style.display = 'block';
             form.reset();
             btn.disabled = false;
+            submitted = false;
           }, 1800);
         });
       }
