@@ -579,8 +579,10 @@
           msg.style.display = 'none';
           loader.classList.add('active');
 
-          const params = new URLSearchParams(new FormData(form)).toString();
-          const url = 'https://script.google.com/macros/s/AKfycbxpUm18ZuV3haZnnSdZ7PcPJ9D2bdHb5xFzlxpNf9IDC16k302_wah-rhjp0Ef2F9jl/exec?' + params;
+          const formData = new FormData(form);
+          formData.append('token', Date.now() + '-' + Math.random().toString(36).slice(2, 7));
+          const params = new URLSearchParams(formData).toString();
+          const url = 'https://script.google.com/macros/s/AKfycbz71VNmBAzA_DFrxjgh2XE9zICUU6dsYCX7z7heqOkGHXAFl9SJQuz8IFprks2Z9cA/exec?' + params;
 
           fetch(url, { method: 'GET', mode: 'no-cors' }).catch(() => {});
 
