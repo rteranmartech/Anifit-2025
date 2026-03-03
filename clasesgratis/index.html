@@ -749,8 +749,13 @@
       const loader = document.getElementById('gym-loader');
 
       if (form) {
+        let submitted = false; // Flag para evitar doble envío en mobile
+
         form.addEventListener('submit', function (e) {
-          e.preventDefault(); // Evita el submit nativo del form (evita el doble envío)
+          e.preventDefault();
+
+          if (submitted) return; // Si ya se envió, ignorar
+          submitted = true;
 
           btn.disabled = true;
           msg.style.display = 'none';
@@ -770,10 +775,11 @@
             setTimeout(function () {
               loaderSuccess.classList.remove('active');
               msg.className = 'msg success';
-              msg.textContent = '✓ ¡Listo! Te contacto pronto para coordinar tu clase gratis 🎉';
+              msg.textContent = '✓ ¡Listo! Te contactamos pronto para coordinar tu clase gratis 🎉';
               msg.style.display = 'block';
               form.reset();
               btn.disabled = false;
+              submitted = false; // Resetear para permitir un nuevo envío
             }, 3500);
           }, 1800);
         });
