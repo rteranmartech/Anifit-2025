@@ -668,7 +668,7 @@
 
             <form id="form" autocomplete="on">
 
-              <input type="hidden" name="origen" value="clase-gratis" />
+              <input type="hidden" name="origen" value="Clase Gratis" />
 
               <div class="field">
                 <label for="nombre">Nombre y Apellido</label>
@@ -697,7 +697,7 @@
             </form>
 
             <p class="disclaimer">
-              Al registrarte aceptas que nos comuniquemos contigo para coordinar tu clase. Sin spam, prometido. 🤝
+              Al registrarte aceptás que nos comuniquemos contigo para coordinar tu clase. Sin spam, prometido. 🤝
             </p>
           </div>
         </div>
@@ -753,8 +753,9 @@
 
         form.addEventListener('submit', function (e) {
           e.preventDefault();
+          e.stopImmediatePropagation();
 
-          if (submitted) return; // Si ya se envió, ignorar
+          if (submitted) return;
           submitted = true;
 
           btn.disabled = true;
@@ -762,9 +763,9 @@
           loader.classList.add('active');
 
           const params = new URLSearchParams(new FormData(form)).toString();
-          const url = 'https://script.google.com/macros/s/AKfycbwbm4ncy-pQehzQjb7RZsGXpRC9y3O1h8Kc1GrcoStLfzY-UbickN9GjkVg9Bxjn6LS/exec?' + params;
+          const url = 'https://script.google.com/macros/s/AKfycbxpUm18ZuV3haZnnSdZ7PcPJ9D2bdHb5xFzlxpNf9IDC16k302_wah-rhjp0Ef2F9jl/exec?' + params;
 
-          fetch(url, { method: 'GET', mode: 'no-cors' });
+          fetch(url, { method: 'GET', mode: 'no-cors' }).catch(() => {});
 
           setTimeout(function () {
             loader.classList.remove('active');
@@ -788,3 +789,5 @@
   </script>
 </body>
 </html>
+
+
