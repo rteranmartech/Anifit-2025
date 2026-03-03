@@ -22,7 +22,7 @@
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src https://fonts.gstatic.com;
     script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
-    connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;
+    connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://script.google.com;
     base-uri 'self';
     form-action 'self' https://script.google.com;
     frame-src https://script.google.com;
@@ -288,7 +288,6 @@
     }
     .contact-card > * { position: relative; z-index: 1; }
 
-    /* Cupos tag dentro del card */
     .cupos-tag {
       display: inline-flex;
       align-items: center;
@@ -361,7 +360,6 @@
       color: #ff6b6b;
     }
 
-    /* disclaimer */
     .disclaimer {
       text-align: center;
       color: var(--text-muted);
@@ -639,12 +637,10 @@
   </header>
 
   <main id="main">
-    <iframe name="hidden_iframe" style="display:none;" title="hidden_iframe"></iframe>
 
     <section id="clase-gratis" aria-label="Clase Gratis ANIFIT">
       <div class="container">
 
-        <!-- Badge animado -->
         <div style="text-align:center; margin-bottom: .5rem;">
           <span class="hero-badge">
             <span class="dot"></span>
@@ -654,7 +650,6 @@
 
         <h2 class="section-title">Tu Primera Clase <span class="highlight">Gratis</span></h2>
 
-        <!-- Chips de beneficios -->
         <div class="benefits">
           <span class="benefit-chip"><span class="icon">💪</span> Sin experiencia previa</span>
           <span class="benefit-chip"><span class="icon">🎯</span> Entrenamiento personalizado</span>
@@ -671,13 +666,8 @@
               🔥 ¡Registrate ahora y asegura tu clase!
             </div>
 
-            <form id="form"
-              method="GET"
-              action="https://script.google.com/macros/s/AKfycbwbm4ncy-pQehzQjb7RZsGXpRC9y3O1h8Kc1GrcoStLfzY-UbickN9GjkVg9Bxjn6LS/exec"
-              target="hidden_iframe"
-              autocomplete="on">
+            <form id="form" autocomplete="on">
 
-              <!-- Campo oculto para identificar origen del registro -->
               <input type="hidden" name="origen" value="clase-gratis" />
 
               <div class="field">
@@ -701,13 +691,13 @@
               </div>
 
               <div class="btn-wrap">
-                <button type="submit" class="btn btn-primary" id="btn"> ¡Quiero mi clase gratis!</button>
+                <button type="submit" class="btn btn-primary" id="btn">¡Quiero mi clase gratis!</button>
               </div>
               <div class="msg" id="msg"></div>
             </form>
 
             <p class="disclaimer">
-              Al registrarte aceptas que nos comuniquemos contigo para coordinar tu clase. Sin spam, prometido. 🤝
+              Al registrarte aceptás que nos comuniquemos contigo para coordinar tu clase. Sin spam, prometido. 🤝
             </p>
           </div>
         </div>
@@ -725,6 +715,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+
       // Scroll header animation
       const nav = document.getElementById('site-nav');
       if (nav) {
@@ -751,18 +742,24 @@
         });
       }
 
-      // Form submit con loader de mancuerna
+      // Form submit
       const form = document.getElementById('form');
       const btn = document.getElementById('btn');
       const msg = document.getElementById('msg');
       const loader = document.getElementById('gym-loader');
 
       if (form) {
-        form.addEventListener('submit', function () {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault(); // Evita el submit nativo del form (evita el doble envío)
+
           btn.disabled = true;
           msg.style.display = 'none';
-
           loader.classList.add('active');
+
+          const params = new URLSearchParams(new FormData(form)).toString();
+          const url = 'https://script.google.com/macros/s/AKfycbwbm4ncy-pQehzQjb7RZsGXpRC9y3O1h8Kc1GrcoStLfzY-UbickN9GjkVg9Bxjn6LS/exec?' + params;
+
+          fetch(url, { method: 'GET', mode: 'no-cors' });
 
           setTimeout(function () {
             loader.classList.remove('active');
@@ -772,9 +769,8 @@
 
             setTimeout(function () {
               loaderSuccess.classList.remove('active');
-
               msg.className = 'msg success';
-              msg.textContent = '✓ ¡Listo! Te contactamos pronto para coordinar tu clase gratis 🎉';
+              msg.textContent = '✓ ¡Listo! Te contacto pronto para coordinar tu clase gratis 🎉';
               msg.style.display = 'block';
               form.reset();
               btn.disabled = false;
