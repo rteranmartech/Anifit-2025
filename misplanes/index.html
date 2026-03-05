@@ -331,6 +331,108 @@ let __ALUMNO_CACHE__ = null;
 let __PROG_CACHE__ = null;
 let __PROFILE_TAB__ = 'perfil';
 
+// ── Persistencia de sesión ──────────────────────────────────────────────────
+const SESSION_KEY = 'anifit_session';
+const SESSION_TTL = 24 * 60 * 60 * 1000; // 24 horas en ms
+
+function saveSession(user, datos) {
+  try {
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ user, datos, ts: Date.now() }));
+  } catch(e) {}
+}
+
+function loadSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    const saved = JSON.parse(raw);
+    if (!saved || !saved.ts || !saved.user || !saved.datos) return null;
+    if (Date.now() - saved.ts > SESSION_TTL) { localStorage.removeItem(SESSION_KEY); return null; }
+    return saved;
+  } catch(e) { return null; }
+}
+
+function clearSession() {
+  try { localStorage.removeItem(SESSION_KEY); } catch(e) {}
+}
+
+function refreshSilencioso(user) {
+  const url = URL_SCRIPT + '?t=' + Date.now() + '&user=' + encodeURIComponent(user);
+  fetch(url)
+    .then(r => r.json())
+    .then(datos => {
+      if (!datos || datos.ok !== true) return;
+      saveSession(user, datos);
+
+      // Actualizar caché en memoria
+      const alumno = datos.alumno || {};
+      const plan = Array.isArray(datos.plan) ? datos.plan : [];
+      const entrenamiento = Array.isArray(datos.entrenamiento) ? datos.entrenamiento : [];
+      const progreso = (datos.progreso && typeof datos.progreso === 'object') ? datos.progreso : null;
+
+      __ALUMNO_CACHE__ = alumno;
+      __PLAN_CACHE__ = plan;
+      __TRAIN_CACHE__ = entrenamiento;
+      __PROG_CACHE__ = progreso;
+
+      // Actualizar UI silenciosamente
+      document.getElementById('alumno-nombre').textContent = alumno.nombre || '';
+      document.getElementById('alumno-peso').textContent   = alumno.peso   || '';
+      document.getElementById('alumno-objetivo').textContent = alumno.objetivo || '';
+      document.getElementById('alumno-fecha').textContent  = alumno.fechaIngreso || '';
+
+      if (__PROG_CACHE__) applyProgress_(__PROG_CACHE__);
+      else resetProgressBars_();
+
+      // Re-renderizar la tab activa
+      const isTrain = document.getElementById('tab-entrenamiento') &&
+                      document.getElementById('tab-entrenamiento').classList.contains('active');
+      if (isTrain) renderTraining(__TRAIN_CACHE__);
+      else renderDiet(__PLAN_CACHE__);
+    })
+    .catch(() => {}); // Si falla el refresh, no pasa nada — ya están los datos cacheados
+}
+
+function restaurarSesion(saved) {
+  const datos  = saved.datos;
+  const alumno = datos.alumno || { nombre:'', peso:'', objetivo:'', fechaIngreso:'' };
+  const plan   = Array.isArray(datos.plan) ? datos.plan : [];
+  const entrenamiento = Array.isArray(datos.entrenamiento) ? datos.entrenamiento : [];
+  const progreso = (datos.progreso && typeof datos.progreso === 'object') ? datos.progreso : null;
+
+  __ALUMNO_CACHE__ = alumno;
+  __PLAN_CACHE__   = plan;
+  __TRAIN_CACHE__  = entrenamiento;
+  __PROG_CACHE__   = progreso;
+
+  document.body.classList.remove('login-mode');
+  document.getElementById('login-screen').style.display  = 'none';
+  document.getElementById('app-content').style.display   = 'block';
+  document.getElementById('logout-top').style.display    = 'inline-flex';
+  document.getElementById('main-tabs').style.display     = 'flex';
+  document.getElementById('logout-top').onclick = logout;
+  wireMainTabs();
+  wireProfileTabs();
+  wireModal();
+
+  document.getElementById('alumno-nombre').textContent   = alumno.nombre || '';
+  document.getElementById('alumno-peso').textContent     = alumno.peso   || '';
+  document.getElementById('alumno-objetivo').textContent = alumno.objetivo || '';
+  document.getElementById('alumno-fecha').textContent    = alumno.fechaIngreso || '';
+
+  if (__PROG_CACHE__) applyProgress_(__PROG_CACHE__);
+  else resetProgressBars_();
+
+  document.title = alumno.nombre ? `Plan Nutricional - ${alumno.nombre}` : 'Plan Nutricional';
+  setMainTab('alimentacion');
+  setProfileTab('perfil');
+  renderDiet(__PLAN_CACHE__);
+
+  // Refresh silencioso en paralelo para tener datos frescos del Sheet
+  refreshSilencioso(saved.user);
+}
+// ────────────────────────────────────────────────────────────────────────────
+
 let __BTN_STEP_TIMER__ = null;
 let __BTN_SESSION_DONE__ = false;
 
@@ -496,6 +598,7 @@ function logout() {
   __ALUMNO_CACHE__ = null;
   __PROG_CACHE__ = null;
   __PROFILE_TAB__ = 'perfil';
+  clearSession();
   try { document.activeElement && document.activeElement.blur && document.activeElement.blur(); } catch(e) {}
   showLogin('Sesión cerrada. Ingresa tu usuario para ver tu plan.');
   window.scrollTo({ top: 0, behavior: 'instant' });
@@ -696,6 +799,8 @@ async function cargarPlan(user, btn, labelEl, subEl, progressEl) {
       const entrenamiento = Array.isArray(datos.entrenamiento) ? datos.entrenamiento : [];
       const progreso = (datos.progreso && typeof datos.progreso === 'object') ? datos.progreso : null;
 
+      saveSession(user, datos);
+
       __ALUMNO_CACHE__ = alumno;
       __PLAN_CACHE__ = plan;
       __TRAIN_CACHE__ = entrenamiento;
@@ -720,7 +825,15 @@ async function cargarPlan(user, btn, labelEl, subEl, progressEl) {
   }
 }
 
-showLogin();
+// Al iniciar: verificar si hay sesión guardada válida
+(function() {
+  const saved = loadSession();
+  if (saved) {
+    restaurarSesion(saved);
+  } else {
+    showLogin();
+  }
+})();
 </script>
 </body>
 </html>
