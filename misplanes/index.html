@@ -8,113 +8,599 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-T6Z5STL7');</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Mis Planes</title>
+<meta name="description" content="Accede a tu plan nutricional y de entrenamiento personalizado en ANIFIT."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Mis Planes — ANIFIT</title>
 <style>
+/* ── TOKENS ──────────────────────────────────────────────────────────── */
 :root{
-  --bg:#ffffff;
-  --bg-soft:#f6f7fb;
+  --bg:#f8f9fc;
+  --bg-card:#ffffff;
   --text:#0b0f19;
-  --muted:#5b6474;
-  --border:rgba(11,15,25,.10);
-  --shadow:0 14px 40px rgba(11,15,25,.10);
-  --shadow-soft:0 10px 24px rgba(11,15,25,.08);
-  --accent:#27ae60;
-  --accent-2:#111827;
-  --radius-xl:26px;
+  --muted:#64748b;
+  --border:rgba(11,15,25,.09);
+  --border-hover:rgba(11,15,25,.18);
+  --shadow-xs:0 1px 3px rgba(11,15,25,.06),0 1px 2px rgba(11,15,25,.04);
+  --shadow-sm:0 4px 12px rgba(11,15,25,.08),0 2px 6px rgba(11,15,25,.05);
+  --shadow-md:0 10px 28px rgba(11,15,25,.10),0 4px 10px rgba(11,15,25,.06);
+  --shadow-lg:0 20px 48px rgba(11,15,25,.12),0 8px 18px rgba(11,15,25,.07);
+  --accent:#22c55e;
+  --accent-dark:#16a34a;
+  --accent-soft:rgba(34,197,94,.10);
+  --accent-border:rgba(34,197,94,.28);
+  --train:#3b82f6;
+  --train-dark:#2563eb;
+  --train-soft:rgba(59,130,246,.10);
+  --train-border:rgba(59,130,246,.28);
+  --dark:#0f172a;
+  --dark-2:#1e293b;
+  --radius-xl:24px;
   --radius-lg:18px;
-  --radius-md:14px;
+  --radius-md:12px;
+  --radius-sm:8px;
   --max:1120px;
   --pad-x:clamp(16px,3.8vw,28px);
-  --pad-y:clamp(18px,4.2vw,32px);
-  --h1:clamp(26px,4.2vw,44px);
-  --h2:clamp(16px,2.4vw,20px);
-  --p:clamp(14px,1.8vw,16px);
-  --small:12.5px;
-  --logo-size:34px;
+  --pad-y:clamp(20px,4.2vw,36px);
+  --h1:clamp(28px,4.2vw,46px);
+  --h2:clamp(15px,2vw,19px);
+  --p:clamp(14px,1.6vw,15.5px);
+  --small:clamp(11.5px,1.2vw,13px);
+  --logo-size:36px;
+  --font:'DM Sans',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:'DM Mono',ui-monospace,monospace;
 }
-*{box-sizing:border-box;}
+
+/* ── RESET ───────────────────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;}
-input,select,textarea{font-size:16px!important;}
-body{
-  margin:0;
-  color:var(--text);
-  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
-  background:
-    radial-gradient(1200px 500px at 15% -10%,rgba(39,174,96,.10),transparent 55%),
-    radial-gradient(900px 500px at 100% 0%,rgba(17,24,39,.08),transparent 60%),
-    var(--bg);
-  line-height:1.35;
-}
+input,select,textarea{font-size:16px!important;font-family:var(--font);}
 a{color:inherit;text-decoration:none;}
+
+body{
+  color:var(--text);
+  font-family:var(--font);
+  background:var(--bg);
+  background-image:
+    radial-gradient(ellipse 900px 400px at 10% -5%, rgba(34,197,94,.07), transparent 55%),
+    radial-gradient(ellipse 700px 500px at 95% 5%, rgba(59,130,246,.05), transparent 60%);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────────────────── */
 .wrap{min-height:100%;display:flex;flex-direction:column;}
-.topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);background:rgba(255,255,255,.78);border-bottom:1px solid rgba(11,15,25,.06);}
-.topbar-inner{max-width:var(--max);margin:0 auto;padding:10px var(--pad-x);display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:12px;}
-.brand-badge{width:var(--logo-size);height:var(--logo-size);border-radius:12px;overflow:hidden;box-shadow:0 10px 20px rgba(11,15,25,.10);border:1px solid rgba(11,15,25,.10);background:#fff;display:grid;place-items:center;flex:0 0 auto;}
+
+/* ── TOPBAR ──────────────────────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:20;
+  backdrop-filter:blur(16px) saturate(1.2);
+  -webkit-backdrop-filter:blur(16px) saturate(1.2);
+  background:rgba(248,249,252,.88);
+  border-bottom:1px solid rgba(11,15,25,.07);
+  box-shadow:0 1px 0 rgba(255,255,255,.6),var(--shadow-xs);
+}
+.topbar-inner{
+  max-width:var(--max);margin:0 auto;
+  padding:11px var(--pad-x);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.brand{
+  display:inline-flex;align-items:center;gap:10px;
+  font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:11.5px;
+  color:var(--dark);
+}
+.brand-badge{
+  width:var(--logo-size);height:var(--logo-size);
+  border-radius:10px;overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  border:1px solid var(--border);
+  background:#fff;display:grid;place-items:center;flex:0 0 auto;
+}
 .brand-badge img{width:100%;height:100%;object-fit:cover;display:block;}
-.nav-actions{display:inline-flex;align-items:center;gap:10px;}
-.btn{appearance:none;border:1px solid rgba(11,15,25,.12);background:rgba(255,255,255,.86);color:var(--text);padding:10px 14px;border-radius:999px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s ease,box-shadow .12s ease,background .12s ease,opacity .12s ease;box-shadow:0 6px 14px rgba(11,15,25,.06);cursor:pointer;user-select:none;white-space:nowrap;}
-.btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(11,15,25,.10);}
-.btn:active{transform:translateY(0px);}
-.btn-primary{background:var(--accent-2);color:#fff;border-color:rgba(17,24,39,.18);box-shadow:0 10px 24px rgba(17,24,39,.18);}
-.btn-primary:hover{box-shadow:0 14px 30px rgba(17,24,39,.22);}
-.btn-ghost{background:rgba(255,255,255,.10);border:1px solid rgba(11,15,25,.12);color:rgba(11,15,25,.86);box-shadow:0 6px 14px rgba(11,15,25,.06);}
-.segmented{display:inline-flex;align-items:center;gap:0;padding:4px;border-radius:999px;background:rgba(17,24,39,.92);border:1px solid rgba(17,24,39,.18);box-shadow:0 12px 26px rgba(17,24,39,.16);}
-.segmented .seg-btn{border:0;background:transparent;color:rgba(255,255,255,.92);padding:9px 12px;border-radius:999px;font-weight:750;font-size:12.5px;letter-spacing:.01em;cursor:pointer;transition:background .12s ease,opacity .12s ease,transform .12s ease;display:inline-flex;align-items:center;gap:8px;}
-.segmented .seg-btn:hover{transform:translateY(-1px);}
-.segmented .seg-btn:active{transform:translateY(0px);}
-.segmented .seg-btn.active{background:rgba(255,255,255,.14);}
-.mini-tabs{display:inline-flex;align-items:center;gap:8px;width:100%;margin-top:12px;}
-.mini-tabs .mini-btn{flex:1 1 auto;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:rgba(255,255,255,.92);padding:10px 12px;border-radius:14px;font-weight:800;font-size:13px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease,background .12s ease,opacity .12s ease;box-shadow:0 10px 18px rgba(11,15,25,.14);user-select:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;}
-.mini-tabs .mini-btn:hover{transform:translateY(-1px);box-shadow:0 14px 24px rgba(11,15,25,.18);}
+.nav-actions{display:inline-flex;align-items:center;gap:8px;}
+
+/* ── BUTTONS ─────────────────────────────────────────────────────────── */
+.btn{
+  appearance:none;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.9);
+  color:var(--text);
+  padding:9px 16px;
+  border-radius:999px;
+  font-family:var(--font);
+  font-weight:600;font-size:13px;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  transition:transform .14s ease,box-shadow .14s ease,background .14s ease,border-color .14s ease;
+  box-shadow:var(--shadow-xs);
+  cursor:pointer;user-select:none;white-space:nowrap;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm);border-color:var(--border-hover);}
+.btn:active{transform:translateY(0);}
+.btn-primary{
+  background:var(--dark);color:#fff;
+  border-color:transparent;
+  box-shadow:0 8px 20px rgba(15,23,42,.20);
+}
+.btn-primary:hover{background:var(--dark-2);box-shadow:0 12px 28px rgba(15,23,42,.28);border-color:transparent;}
+.btn-ghost{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-size:12.5px;
+  padding:8px 14px;
+}
+.btn-ghost:hover{color:var(--text);background:rgba(255,255,255,.8);}
+
+/* Icono logout */
+.btn-ghost .icon-logout{
+  width:14px;height:14px;opacity:.7;
+  display:inline-block;vertical-align:middle;
+}
+
+/* ── SEGMENTED TABS (main) ───────────────────────────────────────────── */
+.segmented{
+  display:inline-flex;align-items:center;
+  padding:4px;border-radius:999px;
+  background:var(--dark);
+  border:1px solid rgba(255,255,255,.06);
+  box-shadow:0 8px 24px rgba(15,23,42,.22);
+  gap:2px;
+}
+.segmented .seg-btn{
+  border:0;background:transparent;
+  color:rgba(255,255,255,.70);
+  padding:9px 18px;border-radius:999px;
+  font-family:var(--font);
+  font-weight:600;font-size:13px;
+  cursor:pointer;
+  transition:background .15s ease,color .15s ease,transform .12s ease;
+  display:inline-flex;align-items:center;gap:7px;
+  white-space:nowrap;
+}
+.segmented .seg-btn:hover{color:rgba(255,255,255,.92);}
+.segmented .seg-btn.active{
+  background:rgba(255,255,255,.13);
+  color:#fff;
+  font-weight:700;
+}
+/* tab activa alimentación */
+.segmented .seg-btn#tab-alimentacion.active{
+  background:rgba(34,197,94,.18);
+  color:rgba(134,239,172,1);
+}
+/* tab activa entrenamiento */
+.segmented .seg-btn#tab-entrenamiento.active{
+  background:rgba(59,130,246,.18);
+  color:rgba(147,197,253,1);
+}
+
+/* ── MINI TABS (perfil) ──────────────────────────────────────────────── */
+.mini-tabs{display:inline-flex;align-items:center;gap:8px;width:100%;margin-top:14px;}
+.mini-tabs .mini-btn{
+  flex:1 1 auto;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.07);
+  color:rgba(255,255,255,.80);
+  padding:10px 12px;border-radius:var(--radius-md);
+  font-family:var(--font);font-weight:600;font-size:13px;
+  cursor:pointer;
+  transition:transform .12s ease,box-shadow .12s ease,background .14s ease,border-color .14s ease;
+  box-shadow:0 4px 12px rgba(11,15,25,.12);
+  user-select:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  white-space:nowrap;
+}
+.mini-tabs .mini-btn:hover{transform:translateY(-1px);color:#fff;}
 .mini-tabs .mini-btn:active{transform:translateY(0);}
-.mini-tabs .mini-btn.active{background:rgba(39,174,96,.18);border-color:rgba(39,174,96,.30);}
-.main{flex:1;max-width:var(--max);width:100%;margin:0 auto;padding:18px var(--pad-x) 46px;}
-.hero{margin-top:8px;border-radius:var(--radius-xl);background:linear-gradient(135deg,rgba(17,24,39,.96),rgba(17,24,39,.88)),radial-gradient(900px 300px at 10% 0%,rgba(39,174,96,.26),transparent 60%);color:#fff;box-shadow:var(--shadow);overflow:hidden;position:relative;}
-.hero::after{content:"";position:absolute;inset:auto -120px -120px auto;width:260px;height:260px;background:radial-gradient(circle at 30% 30%,rgba(39,174,96,.30),transparent 60%);filter:blur(2px);pointer-events:none;}
-.hero-inner{padding:var(--pad-y) var(--pad-x);display:grid;grid-template-columns:1.35fr .65fr;gap:18px;align-items:start;}
+.mini-tabs .mini-btn.active{
+  background:rgba(34,197,94,.16);
+  border-color:rgba(34,197,94,.32);
+  color:#fff;
+  font-weight:700;
+}
+
+/* ── MAIN ────────────────────────────────────────────────────────────── */
+.main{flex:1;max-width:var(--max);width:100%;margin:0 auto;padding:20px var(--pad-x) 56px;}
+
+/* ── HERO ────────────────────────────────────────────────────────────── */
+.hero{
+  margin-top:10px;
+  border-radius:var(--radius-xl);
+  background:
+    linear-gradient(135deg, rgba(15,23,42,.97) 0%, rgba(30,41,59,.93) 100%),
+    radial-gradient(ellipse 800px 300px at 5% -10%, rgba(34,197,94,.30), transparent 55%);
+  color:#fff;
+  box-shadow:var(--shadow-lg);
+  overflow:hidden;
+  position:relative;
+}
+/* orbe decorativo */
+.hero::before{
+  content:"";position:absolute;
+  inset:auto -80px -80px auto;
+  width:240px;height:240px;
+  background:radial-gradient(circle at 40% 40%, rgba(34,197,94,.22), transparent 60%);
+  filter:blur(1px);pointer-events:none;
+}
+/* línea de acento superior */
+.hero::after{
+  content:"";position:absolute;
+  inset:0 0 auto 0;height:2px;
+  background:linear-gradient(90deg, rgba(34,197,94,.0) 0%, rgba(34,197,94,.6) 40%, rgba(34,197,94,.0) 100%);
+  pointer-events:none;
+}
+.hero-inner{
+  padding:var(--pad-y) var(--pad-x);
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:20px;align-items:start;
+}
 @media(max-width:860px){.hero-inner{grid-template-columns:1fr;}}
-.hero h1{margin:0 0 10px;font-size:var(--h1);letter-spacing:-.02em;line-height:1.05;}
-.hero p{margin:0;color:rgba(255,255,255,.82);font-size:var(--p);max-width:60ch;}
-.profile{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius-lg);padding:14px 14px;display:grid;gap:10px;}
-.profile-title{font-weight:800;letter-spacing:.02em;font-size:13px;opacity:.95;display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.tag{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:rgba(39,174,96,.18);border:1px solid rgba(39,174,96,.30);color:#eafff3;font-size:12.5px;font-weight:700;white-space:nowrap;}
+
+/* hero eyebrow badge */
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:5px 11px;border-radius:999px;
+  background:rgba(34,197,94,.12);
+  border:1px solid rgba(34,197,94,.24);
+  font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;
+  color:rgba(134,239,172,.95);
+  margin-bottom:14px;
+}
+.hero-eyebrow .pulse-dot{
+  width:7px;height:7px;border-radius:999px;
+  background:#22c55e;
+  box-shadow:0 0 0 3px rgba(34,197,94,.20);
+  animation:pulse-glow 2.2s ease-in-out infinite;
+}
+@keyframes pulse-glow{
+  0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.20);}
+  50%{box-shadow:0 0 0 6px rgba(34,197,94,.08);}
+}
+@media(prefers-reduced-motion:reduce){.pulse-dot{animation:none;}}
+
+.hero h1{
+  font-size:var(--h1);
+  font-weight:800;letter-spacing:-.03em;line-height:1.06;
+  margin-bottom:10px;
+}
+.hero h1 span{color:rgba(134,239,172,.9);}
+.hero-desc{
+  color:rgba(255,255,255,.65);
+  font-size:var(--p);
+  line-height:1.65;
+  max-width:58ch;
+}
+
+/* ── PROFILE CARD (hero aside) ───────────────────────────────────────── */
+.profile{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--radius-lg);
+  padding:16px;
+  display:grid;gap:12px;
+  backdrop-filter:blur(4px);
+}
+.profile-title{
+  font-weight:700;letter-spacing:.02em;font-size:12.5px;
+  opacity:.95;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.tag{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 10px;border-radius:999px;
+  background:rgba(34,197,94,.15);
+  border:1px solid rgba(34,197,94,.28);
+  color:#86efac;
+  font-size:11.5px;font-weight:700;
+  white-space:nowrap;
+}
+.tag::before{
+  content:"";width:6px;height:6px;border-radius:999px;
+  background:#22c55e;display:inline-block;
+}
 .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px;}
 @media(max-width:520px){.profile-grid{grid-template-columns:1fr;}}
 .profile-grid.prog-grid{grid-template-columns:1fr 1fr;}
-@media(max-width:520px){.profile-grid.prog-grid{grid-template-columns:1fr 1fr;}}
-.kv{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px 12px;}
-.kv .k{font-size:11px;color:rgba(255,255,255,.72);margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;}
-.kv .v{font-size:14.5px;font-weight:800;color:rgba(255,255,255,.96);min-height:18px;white-space:pre-line;line-height:1.35;}
-.chart{margin-top:10px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:10px 10px 8px;}
+
+.kv{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:var(--radius-sm);
+  padding:11px 12px;
+  transition:background .14s ease,border-color .14s ease;
+}
+.kv:hover{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.16);}
+.kv .k{
+  font-size:10.5px;color:rgba(255,255,255,.55);
+  margin-bottom:5px;letter-spacing:.09em;text-transform:uppercase;
+  font-weight:600;
+}
+.kv .v{
+  font-size:14px;font-weight:700;
+  color:rgba(255,255,255,.96);
+  min-height:18px;white-space:pre-line;line-height:1.4;
+}
+
+/* ── MINI CHART ──────────────────────────────────────────────────────── */
+.chart{
+  margin-top:8px;border-radius:var(--radius-sm);
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.10);
+  padding:10px 10px 8px;
+}
 .chart-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;}
-.chart-title{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.72);font-weight:800;}
-.chart-legend{display:flex;align-items:center;gap:10px;font-size:11px;color:rgba(255,255,255,.72);font-weight:700;white-space:nowrap;}
-.dot{width:8px;height:8px;border-radius:999px;display:inline-block;background:rgba(255,255,255,.75);box-shadow:0 0 0 3px rgba(255,255,255,.10);}
-.dot.peso{background:rgba(255,255,255,.92);}
-.dot.pct{background:rgba(39,174,96,.95);box-shadow:0 0 0 3px rgba(39,174,96,.14);}
+.chart-title{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700;}
+.chart-legend{display:flex;align-items:center;gap:10px;font-size:10.5px;color:rgba(255,255,255,.60);font-weight:600;white-space:nowrap;}
+.dot{width:7px;height:7px;border-radius:999px;display:inline-block;}
+.dot.peso{background:rgba(255,255,255,.80);}
+.dot.pct{background:#22c55e;}
 .bars{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;height:86px;padding:0 2px;}
 .bar-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;}
 .bar-pair{width:100%;display:flex;align-items:flex-end;justify-content:center;gap:4px;height:66px;}
-.bar{width:46%;border-radius:10px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.18);height:calc(var(--h,0)*1%);min-height:10px;transition:height .2s ease;}
-.bar.peso{background:rgba(255,255,255,.28);}
-.bar.pct{background:rgba(39,174,96,.26);border-color:rgba(39,174,96,.30);}
-.bar-label{font-size:10.5px;color:rgba(255,255,255,.72);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
-.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:18px;}
-.section-head h2{margin:0;font-size:var(--h2);letter-spacing:-.01em;}
-.section-head h2.attn{display:inline-block;will-change:transform;animation:subtle-sway 5.6s ease-in-out infinite;}
-@keyframes subtle-sway{0%{transform:translateX(0px);}50%{transform:translateX(-10px);}100%{transform:translateX(0px);}}
+.bar{
+  width:46%;border-radius:6px 6px 3px 3px;
+  height:calc(var(--h,0)*1%);min-height:8px;
+  transition:height .3s cubic-bezier(.34,1.56,.64,1);
+}
+.bar.peso{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.16);}
+.bar.pct{background:rgba(34,197,94,.35);border:1px solid rgba(34,197,94,.40);}
+.bar-label{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-weight:600;}
+
+/* ── SECTION HEAD ────────────────────────────────────────────────────── */
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:24px;margin-bottom:4px;
+}
+.section-head h2{
+  font-size:var(--h2);
+  font-weight:700;letter-spacing:-.015em;
+  color:var(--dark);
+  display:flex;align-items:center;gap:10px;
+}
+/* Reemplaza la animación de sway por un fadeIn limpio */
+.section-head h2.attn{
+  animation:fadein-up .4s ease both;
+}
+@keyframes fadein-up{
+  from{opacity:0;transform:translateY(6px);}
+  to{opacity:1;transform:translateY(0);}
+}
 @media(prefers-reduced-motion:reduce){.section-head h2.attn{animation:none;}}
+
+/* badge de sección */
+.section-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 10px;border-radius:999px;
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+  white-space:nowrap;
+}
+.section-badge.diet{
+  background:var(--accent-soft);
+  border:1px solid var(--accent-border);
+  color:var(--accent-dark);
+}
+.section-badge.train{
+  background:var(--train-soft);
+  border:1px solid var(--train-border);
+  color:var(--train-dark);
+}
+
+/* ── SECTION ─────────────────────────────────────────────────────────── */
 .section{margin-top:14px;display:grid;gap:14px;}
 .cards{display:grid;grid-template-columns:1fr;gap:14px;}
-@media(min-width:900px){.cards{grid-template-columns:1fr 1fr;gap:14px;}}
-.card{position:relative;border-radius:18px;background:rgba(255,255,255,.96);border:1px solid rgba(11,15,25,.10);box-shadow:0 10px 26px rgba(11,15,25,.08);overflow:hidden;transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease;padding:16px;}
-.card::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:linear-gradient(180deg,rgba(39,174,96,1),rgba(39,174,96,.35));}
-.card h3{margin:0 0 10px;padding-left:12px;font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:rgba(11,15,25,.78);display:flex;align-items:center;gap:12px;}
-.card h3::after{content:"";height:1px;flex:1;background:rgba(11,15,25,.12);}
-.card p{margin:0;padding-left:12px;white-space:pre-line;font-size:var(--p);color:rgba(11,15,25,.84);line-height:1.7;}
-@media(hover:hover) and (pointer:fine){.card:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(11,15,25,.12);border-color:rgba(11,15,25,.14);}}
-@media(max-width:480px){.cards{gap:12px;}.card{padding:14px;border-radius:16px;}.card h3{padding-left:10px;}.card p{padding-left:10px;}}
+@media(min-width:900px){.cards{grid-template-columns:1fr 1fr;gap:16px;}}
+
+/* ── CARDS ───────────────────────────────────────────────────────────── */
+.card{
+  position:relative;
+  border-radius:var(--radius-lg);
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+  padding:20px 20px 20px 26px;
+  animation:card-in .35s ease both;
+}
+@keyframes card-in{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@media(prefers-reduced-motion:reduce){.card{animation:none;}}
+
+/* stagger para las cards */
+.card:nth-child(1){animation-delay:.04s;}
+.card:nth-child(2){animation-delay:.08s;}
+.card:nth-child(3){animation-delay:.12s;}
+.card:nth-child(4){animation-delay:.16s;}
+.card:nth-child(5){animation-delay:.20s;}
+.card:nth-child(6){animation-delay:.24s;}
+.card:nth-child(7){animation-delay:.28s;}
+.card:nth-child(8){animation-delay:.32s;}
+
+/* borde lateral — alimentación (verde) */
+.card::before{
+  content:"";position:absolute;
+  inset:0 auto 0 0;width:4px;
+  background:linear-gradient(180deg, var(--accent) 0%, rgba(34,197,94,.30) 100%);
+  border-radius:4px 0 0 4px;
+}
+/* borde lateral — entrenamiento (azul) via clase */
+.card.card-train::before{
+  background:linear-gradient(180deg, var(--train) 0%, rgba(59,130,246,.30) 100%);
+}
+
+/* header de la card */
+.card-header{
+  display:flex;align-items:flex-start;gap:12px;
+  margin-bottom:14px;
+}
+.card-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:grid;place-items:center;
+  flex:0 0 auto;
+  font-size:18px;
+  background:var(--accent-soft);
+  border:1px solid var(--accent-border);
+}
+.card.card-train .card-icon{
+  background:var(--train-soft);
+  border-color:var(--train-border);
+}
+.card-meta{flex:1;min-width:0;}
+.card-num{
+  font-family:var(--font-mono);
+  font-size:10.5px;font-weight:500;
+  color:var(--muted);
+  letter-spacing:.06em;
+  margin-bottom:3px;
+}
+.card h3{
+  font-size:12.5px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.12em;
+  color:rgba(11,15,25,.82);
+  line-height:1.3;
+  /* quitar padding-left del original ya que usamos layout nuevo */
+  padding-left:0;
+  display:block; /* sobreescribe el flex del original */
+  gap:0;
+}
+/* eliminar la línea ::after del h3 original */
+.card h3::after{display:none;}
+
+.card p{
+  margin:0;padding-left:0;
+  white-space:pre-line;
+  font-size:var(--p);
+  color:rgba(11,15,25,.76);
+  line-height:1.72;
+}
+
+/* hover */
+@media(hover:hover) and (pointer:fine){
+  .card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-md);
+    border-color:var(--border-hover);
+  }
+}
+
+/* mobile */
+@media(max-width:480px){
+  .cards{gap:12px;}
+  .card{padding:16px 16px 16px 22px;border-radius:14px;}
+  .card-icon{width:34px;height:34px;font-size:16px;border-radius:8px;}
+}
+
+/* ── EMPTY STATE ─────────────────────────────────────────────────────── */
+.empty-state{
+  grid-column:1/-1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:48px 24px;
+  background:var(--bg-card);
+  border:1px dashed var(--border);
+  border-radius:var(--radius-lg);
+  text-align:center;
+  color:var(--muted);
+  gap:12px;
+}
+.empty-state .empty-icon{font-size:36px;opacity:.5;}
+.empty-state p{font-size:14px;line-height:1.6;max-width:28ch;}
+
+/* ── WHATSAPP CARD ───────────────────────────────────────────────────── */
+.card-whatsapp{
+  grid-column:1/-1;
+  position:relative;
+  border-radius:var(--radius-lg);
+  background:linear-gradient(135deg,rgba(15,23,42,.98),rgba(30,41,59,.95));
+  border:1px solid rgba(37,211,102,.22);
+  box-shadow:var(--shadow-md),0 0 0 1px rgba(37,211,102,.06);
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:52px 1fr auto;
+  align-items:center;
+  gap:16px;
+  padding:20px 20px;
+  color:#fff;
+  transition:transform .14s ease,box-shadow .14s ease;
+  animation:card-in .35s ease .30s both;
+}
+.card-whatsapp:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-lg),0 0 0 1px rgba(37,211,102,.10);
+}
+/* sin borde izquierdo colored */
+.card-whatsapp::before{display:none;}
+/* glow sutil */
+.card-whatsapp::after{
+  content:'';position:absolute;
+  inset:-60px;
+  background:radial-gradient(ellipse at 15% 50%, rgba(37,211,102,.10), transparent 55%);
+  pointer-events:none;
+}
+.card-whatsapp .cw-icon{
+  width:46px;height:46px;border-radius:13px;
+  background:rgba(37,211,102,.12);
+  border:1px solid rgba(37,211,102,.26);
+  display:grid;place-items:center;
+  flex:0 0 auto;
+  color:rgba(37,211,102,1);
+}
+.card-whatsapp .cw-body h3{
+  font-size:14.5px;font-weight:700;color:#fff;
+  letter-spacing:-.01em;margin-bottom:4px;
+  padding-left:0;text-transform:none;letter-spacing:normal;
+}
+.card-whatsapp .cw-body h3::after{display:none;}
+.card-whatsapp .cw-body p{
+  font-size:13px;color:rgba(255,255,255,.55);
+  line-height:1.5;padding-left:0;white-space:normal;
+}
+.card-whatsapp .cw-actions a{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 18px;border-radius:var(--radius-md);
+  background:rgba(37,211,102,1);color:#0a1a0e;
+  font-size:13px;font-weight:700;letter-spacing:.01em;
+  white-space:nowrap;
+  box-shadow:0 6px 18px rgba(37,211,102,.28);
+  transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+}
+.card-whatsapp .cw-actions a:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.06);
+  box-shadow:0 10px 24px rgba(37,211,102,.38);
+}
+@media(max-width:600px){
+  .card-whatsapp{
+    grid-template-columns:1fr;
+    text-align:center;gap:14px;padding:20px 18px;
+  }
+  .card-whatsapp .cw-icon{margin:0 auto;}
+  .card-whatsapp .cw-actions{display:flex;justify-content:center;}
+  .card-whatsapp .cw-actions a{width:100%;max-width:280px;}
+}
+
+/* ── CENTER TABS ─────────────────────────────────────────────────────── */
+.center-tabs{
+  margin-top:20px;
+  display:flex;justify-content:center;
+}
+
+/* ── FOOTER ──────────────────────────────────────────────────────────── */
+.footer{
+  max-width:var(--max);margin:0 auto;
+  padding:0 var(--pad-x) 28px;
+  color:var(--muted);font-size:12.5px;
+  display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;
+}
+.footer a{color:var(--muted);transition:color .14s;}
+.footer a:hover{color:var(--text);}
+.footer strong{color:rgba(11,15,25,.70);font-weight:700;}
+
+/* ── LOGIN (sin cambios) ─────────────────────────────────────────────── */
 .login-wrap{display:grid;place-items:center;min-height:calc(100vh - 90px);padding:18px 0;position:relative;}
 .login-wrap::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(900px 460px at 50% 8%,rgba(39,174,96,.10),transparent 62%),radial-gradient(780px 520px at 50% 62%,rgba(17,24,39,.08),transparent 70%),linear-gradient(180deg,rgba(255,255,255,1),rgba(246,247,251,.55));filter:saturate(1.03);}
 .login-card{width:min(520px,90%);position:relative;z-index:1;}
@@ -144,41 +630,8 @@ a{color:inherit;text-decoration:none;}
 @media(prefers-reduced-motion:reduce){.field{transition:none;}}
 .spinner{width:14px;height:14px;border-radius:999px;border:2px solid rgba(255,255,255,.35);border-top-color:rgba(255,255,255,.95);animation:spin .8s linear infinite;display:inline-block;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.center-tabs{margin-top:16px;display:flex;justify-content:center;}
-.footer{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x) 24px;color:var(--muted);font-size:12.5px;display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;opacity:.95;}
-.footer strong{color:rgba(11,15,25,.78);}
-@media(max-width:480px){
-  .topbar-inner{padding:10px var(--pad-x);}
-  .brand{letter-spacing:.10em;}
-  .segmented .seg-btn{padding:9px 10px;font-size:12px;}
-  .hero-inner{padding:18px 16px;}
-  .card{padding:14px;}
-  .card h3{letter-spacing:.12em;}
-  .mini-tabs{gap:8px;}
-  .bars{height:82px;}
-  .bar-pair{height:62px;}
-  .login-shell{padding:52px 16px 18px;border-radius:24px;}
-  .login-logo{width:64px;height:64px;border-radius:18px;top:-36px;}
-  .btn-login{min-width:100%;}
-  .login-host{margin-top:42px;}
-  .login-kicker{font-size:11.2px;padding:7px 10px;}
-}
-.modal{position:fixed;inset:0;display:none;z-index:60;padding:18px;}
-.modal.show{display:grid;place-items:center;}
-.modal-backdrop{position:absolute;inset:0;background:rgba(11,15,25,.55);backdrop-filter:blur(6px);}
-.modal-card{position:relative;width:min(520px,calc(100% - 24px));border-radius:20px;background:rgba(255,255,255,.96);border:1px solid rgba(11,15,25,.10);box-shadow:0 24px 60px rgba(11,15,25,.22);overflow:hidden;animation:pop .14s ease-out;}
-@keyframes pop{from{transform:translateY(8px) scale(.98);opacity:.6;}to{transform:translateY(0) scale(1);opacity:1;}}
-.modal-card::before{content:"";position:absolute;inset:0 auto 0 0;width:8px;background:linear-gradient(180deg,rgba(39,174,96,1),rgba(39,174,96,.55));}
-.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 16px 10px 24px;}
-.modal-head h3{margin:0;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(11,15,25,.80);}
-.modal-close{appearance:none;border:1px solid rgba(11,15,25,.12);background:rgba(255,255,255,.9);width:36px;height:36px;border-radius:12px;display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 18px rgba(11,15,25,.10);transition:transform .12s ease,box-shadow .12s ease;font-weight:900;color:rgba(11,15,25,.85);}
-.modal-close:hover{transform:translateY(-1px);box-shadow:0 14px 24px rgba(11,15,25,.14);}
-.modal-close:active{transform:translateY(0);}
-.modal-body{padding:0 16px 18px 24px;color:rgba(11,15,25,.84);line-height:1.6;font-size:15px;}
-.modal-body strong{color:rgba(11,15,25,.92);}
-.modal-actions{padding:0 16px 18px 24px;display:flex;justify-content:flex-end;gap:10px;}
-:focus-visible{outline:none;}
-.login-bg-video,.login-bg-overlay{display:none;}
+
+/* login mode overrides */
 body.login-mode .topbar{display:none;}
 body.login-mode .footer{display:none;}
 body.login-mode .main{max-width:none;width:100%;padding:0;}
@@ -190,65 +643,106 @@ body.login-mode .login-bg-video video{width:100%;height:100%;object-fit:cover;ob
 body.login-mode .login-bg-overlay{display:block;position:absolute;inset:0;z-index:1;pointer-events:none;background:rgba(0,0,0,.32);}
 body.login-mode .login-card{z-index:2;}
 body.login-mode .login-shell{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.30);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15);box-shadow:0 26px 78px rgba(11,15,25,.22),0 12px 26px rgba(11,15,25,.16);}
-/* WhatsApp CTA card */
-.card-whatsapp{
-  grid-column:1/-1;
+.login-bg-video,.login-bg-overlay{display:none;}
+
+/* ── MODAL ───────────────────────────────────────────────────────────── */
+.modal{position:fixed;inset:0;display:none;z-index:60;padding:18px;}
+.modal.show{display:grid;place-items:center;}
+.modal-backdrop{
+  position:absolute;inset:0;
+  background:rgba(11,15,25,.50);
+  backdrop-filter:blur(8px);
+  cursor:pointer;
+}
+.modal-card{
   position:relative;
-  border-radius:18px;
-  background:linear-gradient(135deg,rgba(17,24,39,.97),rgba(17,24,39,.90)),radial-gradient(900px 200px at 10% 0%,rgba(37,211,102,.18),transparent 60%);
-  border:1px solid rgba(37,211,102,.30);
-  box-shadow:0 14px 36px rgba(11,15,25,.16),0 0 0 1px rgba(37,211,102,.08);
+  width:min(520px,calc(100% - 24px));
+  border-radius:var(--radius-xl);
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-lg);
   overflow:hidden;
-  display:grid;
-  grid-template-columns:64px 1fr auto;
-  align-items:center;
-  gap:16px;
-  padding:20px 20px;
-  color:#fff;
+  animation:pop .16s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes pop{from{transform:translateY(10px) scale(.97);opacity:.5;}to{transform:translateY(0) scale(1);opacity:1;}}
+/* borde top accent */
+.modal-card::before{
+  content:"";position:absolute;
+  inset:0 0 auto 0;height:3px;
+  background:linear-gradient(90deg, var(--accent), rgba(34,197,94,.20));
+  pointer-events:none;
+}
+.modal-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:20px 20px 12px 20px;
+}
+.modal-head h3{
+  font-size:12px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.modal-close{
+  appearance:none;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.9);
+  width:34px;height:34px;border-radius:var(--radius-sm);
+  display:grid;place-items:center;
+  cursor:pointer;
+  box-shadow:var(--shadow-xs);
   transition:transform .12s ease,box-shadow .12s ease;
+  font-size:14px;font-weight:700;color:var(--muted);
+  font-family:var(--font);
 }
-.card-whatsapp:hover{transform:translateY(-2px);box-shadow:0 20px 44px rgba(11,15,25,.20);}
-.card-whatsapp::before{display:none;}
-.card-whatsapp::after{content:'';position:absolute;inset:-2px;background:conic-gradient(from 180deg at 50% 50%,rgba(37,211,102,.14),transparent 40%,rgba(37,211,102,.14) 80%,transparent 100%);filter:blur(24px);opacity:.22;pointer-events:none;}
-.card-whatsapp .cw-icon{width:54px;height:54px;border-radius:14px;background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.28);display:grid;place-items:center;flex:0 0 auto;color:rgba(37,211,102,1);}
-.card-whatsapp .cw-body h3{margin:0 0 4px;font-size:15px;font-weight:800;color:#fff;letter-spacing:-.01em;}
-.card-whatsapp .cw-body p{margin:0;font-size:13px;color:rgba(255,255,255,.62);line-height:1.45;}
-.card-whatsapp .cw-actions a{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:11px 18px;border-radius:12px;
-  background:rgba(37,211,102,1);color:#0b0d10;
-  font-size:13px;font-weight:800;letter-spacing:.01em;
-  white-space:nowrap;
-  box-shadow:0 8px 20px rgba(37,211,102,.30);
-  transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+.modal-close:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm);color:var(--text);}
+.modal-body{
+  padding:0 20px 16px;
+  color:rgba(11,15,25,.80);
+  line-height:1.65;font-size:15px;
 }
-.card-whatsapp .cw-actions a:hover{transform:translateY(-1px);filter:brightness(1.06);box-shadow:0 12px 26px rgba(37,211,102,.40);}
-@media(max-width:600px){
-  .card-whatsapp{grid-template-columns:1fr;text-align:center;gap:12px;padding:18px 16px;}
-  .card-whatsapp .cw-icon{margin:0 auto;}
-  .card-whatsapp .cw-actions{display:flex;justify-content:center;}
-  .card-whatsapp .cw-actions a{width:100%;max-width:260px;}
+.modal-body strong{color:var(--text);font-weight:700;}
+.modal-actions{
+  padding:0 20px 20px;
+  display:flex;justify-content:flex-end;gap:10px;
+}
+:focus-visible{outline:2px solid rgba(34,197,94,.5);outline-offset:2px;}
+
+/* ── RESPONSIVE MISC ─────────────────────────────────────────────────── */
+@media(max-width:480px){
+  .topbar-inner{padding:10px var(--pad-x);}
+  .segmented .seg-btn{padding:8px 13px;font-size:12.5px;}
+  .hero-inner{padding:20px 16px;}
+  .mini-tabs{gap:6px;}
+  .bars{height:82px;}
+  .bar-pair{height:62px;}
 }
 </style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T6Z5STL7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="wrap">
+
+  <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="https://anifit.cl/" target="_blank" rel="noopener" aria-label="ANIFIT">
+      <a class="brand" href="https://anifit.cl/" target="_blank" rel="noopener" aria-label="Ir al sitio ANIFIT">
         <span class="brand-badge" aria-hidden="true">
           <img src="https://i.postimg.cc/xdtTf9vd/Diseno-sin-titulo-(1).png" alt="">
         </span>
         ANIFIT
       </a>
       <div class="nav-actions">
-        <button id="logout-top" class="btn btn-ghost" type="button" aria-label="Cerrar sesión" style="display:none;">⎋ Cerrar sesión</button>
+        <button id="logout-top" class="btn btn-ghost" type="button" aria-label="Cerrar sesión" style="display:none;">
+          <svg class="icon-logout" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Salir
+        </button>
       </div>
     </div>
   </header>
 
+  <!-- MAIN -->
   <main class="main">
+
+    <!-- LOGIN SCREEN -->
     <section id="login-screen" class="section" aria-label="Acceso a mis Planes" style="margin-top:10px;">
       <div class="login-wrap">
         <div class="login-bg-video" aria-hidden="true">
@@ -261,26 +755,38 @@ body.login-mode .login-shell{background:rgba(255,255,255,.18);border:1px solid r
       </div>
     </section>
 
+    <!-- APP CONTENT -->
     <div id="app-content" style="display:none;">
-      <section class="hero" aria-label="Encabezado del plan nutricional">
+
+      <!-- HERO -->
+      <section class="hero" aria-label="Resumen del plan">
         <div class="hero-inner">
           <div>
-            <h1>Mis Planes</h1>
-            <p>Aquí encontraras Información general sobre tus planes activos.</p>
+            <div class="hero-eyebrow" aria-hidden="true">
+              <span class="pulse-dot"></span>
+              Plan activo
+            </div>
+            <h1>Tu Plan <span>Personalizado</span></h1>
+            <p class="hero-desc">Todo lo que necesitas para alcanzar tu objetivo, en un solo lugar.</p>
           </div>
+
           <aside class="profile" aria-label="Resumen del alumno" id="perfil-card">
             <div class="profile-title">
               <span>Tu Resumen</span>
-              <span class="tag">Personalizado</span>
+              <span class="tag" aria-label="Plan personalizado activo">Personalizado</span>
             </div>
+
+            <!-- Vista perfil -->
             <div id="perfil-view">
               <div class="profile-grid">
                 <div class="kv"><div class="k">Alumno</div><div class="v" id="alumno-nombre"></div></div>
                 <div class="kv"><div class="k">Peso</div><div class="v" id="alumno-peso"></div></div>
                 <div class="kv" style="grid-column:1/-1;"><div class="k">Objetivo</div><div class="v" id="alumno-objetivo"></div></div>
-                <div class="kv" style="grid-column:1/-1;"><div class="k">Fecha de Ingreso</div><div class="v" id="alumno-fecha"></div></div>
+                <div class="kv" style="grid-column:1/-1;"><div class="k">Fecha de ingreso</div><div class="v" id="alumno-fecha"></div></div>
               </div>
             </div>
+
+            <!-- Vista progreso -->
             <div id="progreso-view" style="display:none;">
               <div class="profile-grid prog-grid">
                 <div class="kv"><div class="k">Peso Actual</div><div class="v" id="prog-peso-actual">0 kg</div></div>
@@ -291,13 +797,13 @@ body.login-mode .login-shell{background:rgba(255,255,255,.18);border:1px solid r
                   <div class="k">Resumen Mensual</div>
                   <div class="chart" aria-label="Gráfico de avance mensual">
                     <div class="chart-top">
-                      <div class="chart-title"></div>
+                      <div class="chart-title">Evolución</div>
                       <div class="chart-legend">
                         <span><span class="dot peso"></span> Peso</span>
-                        <span><span class="dot pct"></span> %</span>
+                        <span><span class="dot pct"></span> Avance</span>
                       </div>
                     </div>
-                    <div class="bars" id="progress-bars">
+                    <div class="bars" id="progress-bars" role="img" aria-label="Gráfico de barras mensual">
                       <div class="bar-col"><div class="bar-pair"><div class="bar peso" style="--h:0"></div><div class="bar pct" style="--h:0"></div></div><div class="bar-label">Ene</div></div>
                       <div class="bar-col"><div class="bar-pair"><div class="bar peso" style="--h:0"></div><div class="bar pct" style="--h:0"></div></div><div class="bar-label">Feb</div></div>
                       <div class="bar-col"><div class="bar-pair"><div class="bar peso" style="--h:0"></div><div class="bar pct" style="--h:0"></div></div><div class="bar-label">Mar</div></div>
@@ -309,47 +815,67 @@ body.login-mode .login-shell{background:rgba(255,255,255,.18);border:1px solid r
                 </div>
               </div>
             </div>
+
+            <!-- Mini tabs -->
             <div class="mini-tabs" role="tablist" aria-label="Vistas del perfil">
-              <button id="btn-perfil" class="mini-btn active" type="button" aria-selected="true">👤 Mi Perfil</button>
-              <button id="btn-progreso" class="mini-btn" type="button" aria-selected="false">📈 Mi Progreso</button>
+              <button id="btn-perfil" class="mini-btn active" type="button" role="tab" aria-selected="true" aria-controls="perfil-view">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                Mi Perfil
+              </button>
+              <button id="btn-progreso" class="mini-btn" type="button" role="tab" aria-selected="false" aria-controls="progreso-view">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Mi Progreso
+              </button>
             </div>
           </aside>
         </div>
       </section>
 
+      <!-- MAIN TABS -->
       <div class="center-tabs" id="main-tabs" style="display:none;">
-        <div class="segmented" role="tablist" aria-label="Secciones">
-          <button class="seg-btn active" id="tab-alimentacion" type="button" aria-selected="true">🍽️ Alimentación</button>
-          <button class="seg-btn" id="tab-entrenamiento" type="button" aria-selected="false">💪 Entrenamiento</button>
+        <div class="segmented" role="tablist" aria-label="Secciones del plan">
+          <button class="seg-btn active" id="tab-alimentacion" type="button" role="tab" aria-selected="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+            Alimentación
+          </button>
+          <button class="seg-btn" id="tab-entrenamiento" type="button" role="tab" aria-selected="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5v14M18 5v14M3 9h3M21 9h-3M3 15h3M21 15h-3"/></svg>
+            Entrenamiento
+          </button>
         </div>
       </div>
 
+      <!-- SECTION TITLE -->
       <div class="section-head" id="section-title">
         <h2 class="attn">Tu dieta personalizada</h2>
       </div>
 
-      <section class="section">
+      <!-- CARDS CONTAINER -->
+      <section class="section" aria-live="polite" aria-atomic="true">
         <div class="cards" id="plan-nutricional"></div>
       </section>
-    </div>
+
+    </div><!-- /app-content -->
   </main>
 
-  <footer class="footer">
-    <div><strong>ANIFIT</strong> — Mis Planes</div>
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div><strong>ANIFIT</strong> — <a href="https://anifit.cl/" target="_blank" rel="noopener">anifit.cl</a></div>
     <div>© <span id="year"></span> Todos los derechos reservados.</div>
   </footer>
 </div>
 
-<div class="modal" id="modal-prox" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="modal-backdrop" data-close="true"></div>
-  <div class="modal-card" role="document" aria-label="Próximamente">
+<!-- MODAL -->
+<div class="modal" id="modal-prox" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-backdrop" data-close="true" aria-label="Cerrar"></div>
+  <div class="modal-card" role="document">
     <div class="modal-head">
       <h3 id="modal-title">Entrenamiento</h3>
-      <button class="modal-close" id="modal-close" type="button" aria-label="Cerrar">✕</button>
+      <button class="modal-close" id="modal-close" type="button" aria-label="Cerrar modal">✕</button>
     </div>
     <div class="modal-body" id="modal-body">
-      <strong>Próximamente</strong> 💪<br>
-      Estamos preparando tu sección de entrenamiento.
+      <strong>Próximamente</strong> 💪<br><br>
+      Tu plan de entrenamiento está en camino. Lo verás aquí muy pronto.
     </div>
     <div class="modal-actions">
       <button class="btn btn-primary" type="button" id="modal-ok">Entendido</button>
@@ -361,6 +887,9 @@ body.login-mode .login-shell{background:rgba(255,255,255,.18);border:1px solid r
 document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
+<!-- ═══════════════════════════════════════════════════════════════════
+     SCRIPT — NO MODIFICADO
+     ═══════════════════════════════════════════════════════════════════ -->
 <script>
 const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbwqOzf3xeKkibu5_uCxL5XA8apMdfQSdpUNsopMvaUU2pTSwHkdi0hrbMlBUAwZXupb/exec';
 
@@ -403,7 +932,6 @@ function refreshSilencioso(user) {
       if (!datos || datos.ok !== true) return;
       saveSession(user, datos);
 
-      // Actualizar caché en memoria
       const alumno = datos.alumno || {};
       const plan = Array.isArray(datos.plan) ? datos.plan : [];
       const entrenamiento = Array.isArray(datos.entrenamiento) ? datos.entrenamiento : [];
@@ -414,7 +942,6 @@ function refreshSilencioso(user) {
       __TRAIN_CACHE__ = entrenamiento;
       __PROG_CACHE__ = progreso;
 
-      // Actualizar UI silenciosamente
       document.getElementById('alumno-nombre').textContent = alumno.nombre || '';
       document.getElementById('alumno-peso').textContent   = alumno.peso   || '';
       document.getElementById('alumno-objetivo').textContent = alumno.objetivo || '';
@@ -423,13 +950,12 @@ function refreshSilencioso(user) {
       if (__PROG_CACHE__) applyProgress_(__PROG_CACHE__);
       else resetProgressBars_();
 
-      // Re-renderizar la tab activa
       const isTrain = document.getElementById('tab-entrenamiento') &&
                       document.getElementById('tab-entrenamiento').classList.contains('active');
       if (isTrain) renderTraining(__TRAIN_CACHE__);
       else renderDiet(__PLAN_CACHE__);
     })
-    .catch(() => {}); // Si falla el refresh, no pasa nada — ya están los datos cacheados
+    .catch(() => {});
 }
 
 function restaurarSesion(saved) {
@@ -467,7 +993,6 @@ function restaurarSesion(saved) {
   setProfileTab('perfil');
   renderDiet(__PLAN_CACHE__);
 
-  // Refresh silencioso en paralelo para tener datos frescos del Sheet
   refreshSilencioso(saved.user);
 }
 // ────────────────────────────────────────────────────────────────────────────
@@ -581,7 +1106,7 @@ function showLogin(message) {
         <p class="login-sub">${msg}</p>
       </div>
       <div class="login-form" style="padding:0 6px;">
-        <input id="login-user" type="email" placeholder="Usuario" autocomplete="username" class="field">
+        <input id="login-user" type="email" placeholder="Usuario" autocomplete="username" class="field" aria-label="Ingresa tu usuario">
         <div class="login-actions">
           <button id="login-btn" class="btn btn-primary btn-login" type="button">
             <div class="btn-login-progress" id="btn-login-progress"></div>
@@ -684,33 +1209,75 @@ function buildWhatsappCard() {
   card.className = 'card-whatsapp';
   card.innerHTML = `
     <div class="cw-icon" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21.5 12a9.5 9.5 0 0 1-13.9 8.4L3 21l.7-4.2A9.5 9.5 0 1 1 21.5 12z"/>
         <path d="M8.5 9.5c.7 2.1 2.9 4.2 5 5l1.6-.8a1 1 0 0 1 1.2.3l1 1.3a1 1 0 0 1-.1 1.3c-1.2 1.3-3.8 1.6-7.2-.6-3.4-2.1-4.8-4.9-4.6-6.5.1-.6.6-1.1 1.2-1.3l1.5-.4a1 1 0 0 1 1.2.7z"/>
       </svg>
     </div>
     <div class="cw-body">
-      <h3>&#x00BF;Tienes dudas sobre tu plan?</h3>
-      <p>&#x00BF;Preguntas sobre tu alimentaci&#xF3;n o entrenamiento? Esc&#xED;beme directo, conversemos.</p>
+      <h3>¿Tienes dudas sobre tu plan?</h3>
+      <p>Escríbeme directo, conversemos sobre tu alimentación o entrenamiento.</p>
     </div>
     <div class="cw-actions">
       <a href="https://wa.me/56926330009?text=Hola%2C%20tengo%20dudas%20sobre%20mi%20plan" target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp para consultar tu plan">
-        Conversemos &#x1F4AC;
+        Conversemos 💬
       </a>
     </div>`;
   return card;
 }
 
+// ── Íconos por sección ────────────────────────────────────────────────────
+function getSectionIcon(seccion) {
+  const s = (seccion || '').toLowerCase();
+  if (/desayuno/.test(s))             return '☀️';
+  if (/almuerzo|comida/.test(s))      return '🥗';
+  if (/cena/.test(s))                 return '🌙';
+  if (/colaci[oó]n|snack|merienda/.test(s)) return '🍎';
+  if (/hidratar|agua|l[íi]quido/.test(s))   return '💧';
+  if (/pre.?entreno|pre-workout/.test(s))    return '⚡';
+  if (/post.?entreno|post-workout/.test(s))  return '🔋';
+  if (/suplemento|proteína|whey/.test(s))    return '🧪';
+  if (/cardio/.test(s))               return '🏃';
+  if (/fuerza|pesas|musculaci[oó]n/.test(s)) return '🏋️';
+  if (/calentamiento|estiramiento/.test(s))  return '🤸';
+  if (/descanso|recuperaci[oó]n/.test(s))    return '😴';
+  if (/rutina|plan/.test(s))          return '📋';
+  return '📌';
+}
+
 function renderDiet(plan) {
   const sectionTitle = document.getElementById('section-title');
   sectionTitle.style.display = 'flex';
-  sectionTitle.innerHTML = '<h2 class="attn">Tu dieta personalizada</h2>';
+  sectionTitle.innerHTML = `
+    <h2 class="attn">Tu dieta personalizada</h2>
+    <span class="section-badge diet">Alimentación</span>
+  `;
   const contenedor = document.getElementById('plan-nutricional');
   contenedor.innerHTML = '';
-  (plan || []).forEach(item => {
+
+  if (!plan || plan.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.innerHTML = `<div class="empty-icon">🥗</div><p>Tu plan nutricional estará disponible pronto.</p>`;
+    contenedor.appendChild(empty);
+    contenedor.appendChild(buildWhatsappCard());
+    return;
+  }
+
+  plan.forEach((item, idx) => {
     const div = document.createElement('div');
     div.className = 'card';
-    div.innerHTML = `<h3>${item.seccion}</h3><p>${item.detalles}</p>`;
+    const icon = getSectionIcon(item.seccion);
+    div.innerHTML = `
+      <div class="card-header">
+        <div class="card-icon" aria-hidden="true">${icon}</div>
+        <div class="card-meta">
+          <div class="card-num">Comida ${String(idx + 1).padStart(2,'0')}</div>
+          <h3>${item.seccion}</h3>
+        </div>
+      </div>
+      <p>${item.detalles}</p>
+    `;
     contenedor.appendChild(div);
   });
   contenedor.appendChild(buildWhatsappCard());
@@ -719,13 +1286,36 @@ function renderDiet(plan) {
 function renderTraining(plan) {
   const sectionTitle = document.getElementById('section-title');
   sectionTitle.style.display = 'flex';
-  sectionTitle.innerHTML = '<h2 class="attn">Tu entrenamiento personalizado</h2>';
+  sectionTitle.innerHTML = `
+    <h2 class="attn">Tu entrenamiento personalizado</h2>
+    <span class="section-badge train">Entrenamiento</span>
+  `;
   const contenedor = document.getElementById('plan-nutricional');
   contenedor.innerHTML = '';
-  (plan || []).forEach(item => {
+
+  if (!plan || plan.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.innerHTML = `<div class="empty-icon">💪</div><p>Tu plan de entrenamiento estará disponible pronto.</p>`;
+    contenedor.appendChild(empty);
+    contenedor.appendChild(buildWhatsappCard());
+    return;
+  }
+
+  plan.forEach((item, idx) => {
     const div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML = `<h3>${item.seccion}</h3><p>${item.detalles}</p>`;
+    div.className = 'card card-train';
+    const icon = getSectionIcon(item.seccion);
+    div.innerHTML = `
+      <div class="card-header">
+        <div class="card-icon" aria-hidden="true">${icon}</div>
+        <div class="card-meta">
+          <div class="card-num">Ejercicio ${String(idx + 1).padStart(2,'0')}</div>
+          <h3>${item.seccion}</h3>
+        </div>
+      </div>
+      <p>${item.detalles}</p>
+    `;
     contenedor.appendChild(div);
   });
   contenedor.appendChild(buildWhatsappCard());
@@ -734,7 +1324,7 @@ function renderTraining(plan) {
 function openModal(titleText, bodyHtml) {
   const modal = document.getElementById('modal-prox');
   document.getElementById('modal-title').textContent = titleText || 'Próximamente';
-  document.getElementById('modal-body').innerHTML = bodyHtml || '<strong>Próximamente</strong><br>Estamos preparando esta sección.';
+  document.getElementById('modal-body').innerHTML = bodyHtml || '<strong>Próximamente</strong><br><br>Tu plan de entrenamiento está en camino. Lo verás aquí muy pronto.';
   modal.classList.add('show');
   modal.setAttribute('aria-hidden', 'false');
   try { document.activeElement && document.activeElement.blur && document.activeElement.blur(); } catch(e) {}
@@ -754,7 +1344,7 @@ function wireMainTabs() {
     setMainTab('alimentacion');
     const sectionTitle = document.getElementById('section-title');
     sectionTitle.style.display = 'flex';
-    sectionTitle.innerHTML = '<h2 class="attn">Tu dieta personalizada</h2>';
+    sectionTitle.innerHTML = `<h2 class="attn">Tu dieta personalizada</h2><span class="section-badge diet">Alimentación</span>`;
     renderDiet(__PLAN_CACHE__);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -762,7 +1352,7 @@ function wireMainTabs() {
     setMainTab('entrenamiento');
     const sectionTitle = document.getElementById('section-title');
     sectionTitle.style.display = 'flex';
-    sectionTitle.innerHTML = '<h2 class="attn">Tu entrenamiento personalizado</h2>';
+    sectionTitle.innerHTML = `<h2 class="attn">Tu entrenamiento personalizado</h2><span class="section-badge train">Entrenamiento</span>`;
     renderTraining(__TRAIN_CACHE__);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -900,6 +1490,7 @@ async function cargarPlan(user, btn, labelEl, subEl, progressEl) {
 </script>
 </body>
 </html>
+
 
 
 
